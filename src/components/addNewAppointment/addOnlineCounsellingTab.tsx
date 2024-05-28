@@ -1,5 +1,5 @@
-import CalendarCard from "../doctorDetail/DateTimePicker/calendar";
-import DateTimeTabs from "../doctorDetail/DateTimePicker/dateTimePickerTabs";
+import CalendarCard from "../DateTimePicker/calendar";
+import DateTimeTabs from "../DateTimePicker/dateTimePickerTabs";
 
 const AddOnlineCounsellingTab: React.FC = () => {
   const customLabels = ["Morning", "Afternoon", "Evening"];

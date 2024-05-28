@@ -68,7 +68,7 @@ let Header: React.FC = () => {
           backgroundColor: changeColorButton ? "#fff" : "#1b61bd",
           color: changeColorButton ? "#1b61bd" : "#fff",
           fontWeight: 500,
-          fontSize: "14px",
+          fontSize: "16px",
           padding: "0px 20px",
           borderRadius: "8px",
           border: "1px solid #1677FF",

@@ -3,24 +3,24 @@ import Input from "antd/es/input/Input";
 import Typography from "antd/es/typography/Typography";
 export const content = [
   {
-    title: "Name",
-    content: "Maximillian Alexander Wellington-Cumberland",
+    title: "Appointment Date",
+    content: "20/05/2024",
   },
   {
-    title: "Birthday",
-    content: "01/01/2024",
+    title: "Expected Appointment Time",
+    content: "07:30 (Morning)",
   },
   {
-    title: "Gender",
-    content: "Female",
+    title: "Doctor",
+    content: " BS.CK2 Y K Mishra",
   },
   {
-    title: "Phone",
-    content: "0116997835",
+    title: "Specialty",
+    content: "Dermatology",
   },
 ];
 //TO DO => NEED TO CHANGE UI USER PROFILE
-const UserProfileDetail: React.FC = () => {
+const UserAppointment: React.FC = () => {
   return (
     <div
       style={{
@@ -65,4 +65,4 @@ const UserProfileDetail: React.FC = () => {
     </div>
   );
 };
-export default UserProfileDetail;
+export default UserAppointment;

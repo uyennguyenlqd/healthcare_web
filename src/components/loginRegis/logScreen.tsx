@@ -19,10 +19,10 @@ const LoginScreen: React.FC<Props> = ({ children }) => {
         }}
       >
         <Image
-          src="/icons/background_img.jpeg"
+          src="/icons/bg01.jpg"
           alt="doctor"
           layout="fill"
-          objectFit="cover"
+          objectFit="fill"
           objectPosition="center"
           style={{
             borderRadius: "8px",

@@ -5,7 +5,7 @@ const ButtonBookDoctor: React.FC = () => {
     <div
       style={{
         display: "flex",
-        gap: "16px",
+        gap: "4px",
         flexDirection: "column",
         justifyContent: "center",
       }}
@@ -33,7 +33,7 @@ const ButtonBookDoctor: React.FC = () => {
       >
         Chat Now
       </Button>
-      <div style={{ display: "flex", gap: "16px" }}>
+      <div style={{ display: "flex", gap: "8px" }}>
         <Button
           style={{
             display: "flex",

@@ -13,8 +13,9 @@ const UserProfile: React.FC = () => {
         display: "flex",
         flexDirection: "column",
         margin: "auto",
-        padding: "24px 24px",
+
         backgroundColor: "#fff",
+        width: "900px",
       }}
     >
       <CustomCollapse

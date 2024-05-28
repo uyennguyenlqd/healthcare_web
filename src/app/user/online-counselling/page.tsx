@@ -1,8 +1,7 @@
-import DoctorCard from "@/components/doctor/doctorCard";
+import { Divider, Flex } from "antd";
+
 import DoctorList from "@/components/doctor/doctorList";
 import DoctorFilter from "@/components/doctorFilter/doctor_filter";
-import HealthConsultant from "@/components/home/heath_consultant";
-import { Divider, Flex } from "antd";
 
 export default function OnlineCounselling() {
   return (

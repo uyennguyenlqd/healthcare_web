@@ -1,4 +1,4 @@
-import { Flex } from "antd";
+import { Button, Flex } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import Typography from "antd/es/typography/Typography";
 import Dragger from "antd/es/upload/Dragger";
@@ -12,8 +12,9 @@ const AdditionalInformation: React.FC = () => {
         style={{
           flexDirection: "column",
           justifyContent: "center",
-          padding: "40px",
-          gap: "24px",
+          padding: "0 40px 40px 40px",
+          gap: "16px",
+          width: "88%",
         }}
       >
         <Typography
@@ -40,6 +41,27 @@ const AdditionalInformation: React.FC = () => {
             Click or drag file to this area to upload
           </p>
         </Dragger>
+        <Button
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#fff",
+            color: "#1b61bd",
+            fontWeight: 500,
+            fontSize: "14px",
+            padding: "0px 8px",
+            borderRadius: "4px",
+            border: "1px solid #1b61bd",
+            height: "30px",
+            width: "fit-content",
+          }}
+          onClick={() => {
+            console.log("button");
+          }}
+        >
+          Add new record
+        </Button>
       </Flex>
     </>
   );
