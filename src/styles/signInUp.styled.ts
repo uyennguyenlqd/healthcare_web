@@ -63,13 +63,6 @@ export const StyleMainBody = styled.div`
   width: 100%;
 `;
 
-export const StyleLink = styled.a`
-  font-size: 16px;
-  line-height: 30px;
-  letter-spacing: 0.02em;
-  color: #1976d2;
-`;
-
 export const StyleForm = styled(Form)`
   .mb-36 {
     margin-bottom: 36px;

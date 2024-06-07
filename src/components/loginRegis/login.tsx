@@ -1,16 +1,19 @@
 import { useState } from "react";
 import Image from "next/image";
-import { Button, Checkbox, Form, Input } from "antd";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Form, Input, notification } from "antd";
 
 import HeaderTitle from "../header/header_title";
 import LoginScreen from "./logScreen";
 
+import { login, performLogin } from "@/hooks/auth";
 import {
   StyleContainerSign,
   StyleFooter,
   StyleForgotPass,
   StyleForm,
-  StyleLink,
   StyleLoginDescription,
   StyleMainBody,
   StyleTextOr,
@@ -19,12 +22,35 @@ import {
 const Login: React.FC = () => {
   const [form] = Form.useForm();
   const [typePassword, setTypePassword] = useState("password");
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [disableLogin, setDisableLogin] = useState(true);
-
-  const handleLogin = () => {
-    console.log("button");
+  const togglePassword = () => {
+    const newType = typePassword === "password" ? "text" : "password";
+    setTypePassword(newType);
   };
+
+  const handleLogin = async () => {
+    try {
+      const values = await form.validateFields();
+      const result = await performLogin(values);
+      if (result?.error) {
+        console.error("Login Failed:", result.error);
+      } else {
+        notification["success"]({
+          message: "Login Successfully",
+          duration: 1, //HIEN THI TRONG 1S
+        });
+        router.push("/user/");
+      }
+    } catch (error) {
+      console.error("Validation Failed:", error);
+      notification.error({
+        message: "Something went wrong. Please try again!",
+      });
+    }
+  };
+
   return (
     <LoginScreen>
       <HeaderTitle />
@@ -69,16 +95,17 @@ const Login: React.FC = () => {
                 size="large"
                 type={typePassword}
                 style={{ border: "1px solid #7E7E7E" }}
+                suffix={
+                  typePassword === "password" ? (
+                    <EyeOutlined onClick={togglePassword} />
+                  ) : (
+                    <EyeInvisibleOutlined onClick={togglePassword} />
+                  )
+                }
               />
             </Form.Item>
             <StyleWrapperRemember>
-              <Form.Item
-                label="Remember me on this device"
-                className="checkbox-wrapper default"
-              >
-                <Checkbox />
-              </Form.Item>
-              <StyleForgotPass href="/forgot-password">
+              <StyleForgotPass href="/auth/forgot-password">
                 Forgot password?
               </StyleForgotPass>
             </StyleWrapperRemember>
@@ -103,7 +130,7 @@ const Login: React.FC = () => {
 
             <Button
               size="large"
-              onClick={handleLogin}
+              onClick={() => login("google")}
               icon={
                 <Image
                   src="/icons/google.png"
@@ -128,7 +155,17 @@ const Login: React.FC = () => {
       </StyleContainerSign>
       <StyleFooter>
         You don’t have account yet? &nbsp;
-        <StyleLink onClick={handleLogin}>Sign up now!</StyleLink>
+        <Link
+          href={"/auth/register"}
+          style={{
+            fontSize: "16px",
+            lineHeight: "30px",
+            letterSpacing: "0.02em",
+            color: "#1976d2",
+          }}
+        >
+          Sign up now!
+        </Link>
       </StyleFooter>
     </LoginScreen>
   );
