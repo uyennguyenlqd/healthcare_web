@@ -2,6 +2,10 @@ import { logOut } from "@/hooks/auth";
 import type { MenuProps } from "antd";
 export const items: MenuProps["items"] = [
   {
+    label: "Home",
+    key: "home",
+  },
+  {
     label: "Online Counselling",
     key: "counselling",
   },
@@ -10,8 +14,8 @@ export const items: MenuProps["items"] = [
     key: "news",
   },
   {
-    label: "About us",
-    key: "aboutus",
+    label: "Contact",
+    key: "contact",
   },
 ];
 export const profileItems: MenuProps["items"] = [

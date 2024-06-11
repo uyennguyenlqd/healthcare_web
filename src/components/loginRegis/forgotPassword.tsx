@@ -1,8 +1,11 @@
-import { Button, Flex, Form, Input, Typography } from "antd";
+import { Button, Flex, Form, Input, Typography, notification } from "antd";
 import HeaderTitle from "../header/header_title";
 import { FC, useState } from "react";
+import { AuthApi } from "@/app/api/user";
+import { useRouter } from "next/navigation";
 
 const ForgotPassword: FC = () => {
+  const router = useRouter();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [disableResetPass, setDisableResetPass] = useState(true);
@@ -15,7 +18,27 @@ const ForgotPassword: FC = () => {
     setDisableResetPass(hasErrors);
   };
   const handleForgotPassword = () => {
-    console.log("button");
+    form &&
+      form.validateFields().then(async (values: any) => {
+        setLoading(true);
+        try {
+          const res = await AuthApi.forgotPassword(values.email);
+          if (!res.data) {
+            throw new Error("");
+          }
+          notification.success({
+            message:
+              "We have sent an message to the given email address that allows you to change the password. Check your mailbox.",
+          });
+
+          router.push("/auth/email-sent");
+        } catch (error) {
+          notification.error({
+            message: "Something went wrong. Please try again!",
+          });
+          setLoading(false);
+        }
+      });
   };
   return (
     <Flex

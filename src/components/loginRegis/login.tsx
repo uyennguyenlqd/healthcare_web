@@ -29,7 +29,7 @@ const Login: React.FC = () => {
     const newType = typePassword === "password" ? "text" : "password";
     setTypePassword(newType);
   };
-
+  //TODO : Not show noti error
   const handleLogin = async () => {
     try {
       const values = await form.validateFields();
@@ -39,15 +39,15 @@ const Login: React.FC = () => {
       } else {
         notification["success"]({
           message: "Login Successfully",
-          duration: 1, //HIEN THI TRONG 1S
+          duration: 1,
         });
         router.push("/user/");
       }
     } catch (error) {
-      console.error("Validation Failed:", error);
       notification.error({
         message: "Something went wrong. Please try again!",
       });
+      console.error("Validation Failed:", error);
     }
   };
 

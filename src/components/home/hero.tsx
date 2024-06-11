@@ -4,7 +4,9 @@ import { Button, Flex } from "antd";
 import SearchSection from "./search";
 import Search from "antd/es/input/Search";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 const Hero: React.FC = () => {
+  const router = useRouter();
   return (
     <Flex
       style={{
@@ -64,7 +66,7 @@ const Hero: React.FC = () => {
             letterSpacing: "0.5px",
           }}
           onClick={() => {
-            console.log("button");
+            router.push("/user/contact");
           }}
         >
           LET US HELP

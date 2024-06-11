@@ -1,13 +1,18 @@
-import { Button, Flex, Form, Input, Typography } from "antd";
+import { Button, Flex, Form, Input, Typography, notification } from "antd";
 import HeaderTitle from "../header/header_title";
 import { FC, useState } from "react";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import { AuthApi } from "@/app/api/user";
+import { useParams, useRouter } from "next/navigation";
+
 const ChangePassword: FC = () => {
   const [form] = Form.useForm();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [disableResetPass, setDisableResetPass] = useState(true);
   const [typePassword, setTypePassword] = useState("password");
   const [typeConfirmPassword, setTypeConfirmPassword] = useState("password");
+  const { id, token } = useParams<{ id: string; token: string }>();
   const togglePassword = () => {
     const newType = typePassword === "password" ? "text" : "password";
     setTypePassword(newType);
@@ -25,7 +30,37 @@ const ChangePassword: FC = () => {
     setDisableResetPass(hasErrors);
   };
   const handleForgotPassword = () => {
-    console.log("button");
+    form &&
+      form.validateFields().then(async (values) => {
+        setLoading(true);
+        try {
+          if (id && token) {
+            const resBody = {
+              id: id,
+              token: token,
+              newpassword: values.password,
+            };
+            const res = await AuthApi.resetForgotPassword(resBody);
+            console.log("res: ", res);
+            if (!res.data) {
+              throw new Error("");
+            }
+            notification.success({
+              message: "Your password has changed. You can log in now!",
+            });
+            setLoading(false);
+            router.push("/auth/login");
+          } else {
+            throw new Error("ID or token is missing");
+          }
+        } catch (error) {
+          console.error(error);
+          notification.error({
+            message: "Something went wrong. Please try again!",
+          });
+          setLoading(false);
+        }
+      });
   };
   return (
     <Flex

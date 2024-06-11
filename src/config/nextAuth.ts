@@ -51,7 +51,7 @@ export const {
   ],
   session: {
     strategy: "jwt",
-    maxAge: 3 * 24 * 60 * 60,
+    // maxAge: 3 * 24 * 60 * 60,
   },
   secret: process.env.AUTH_SECRET,
   callbacks: {

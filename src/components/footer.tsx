@@ -7,33 +7,28 @@ export const footerLinks = [
   {
     title: "About UTE Health",
     links: [
-      { title: "Home", url: "/" },
-      { title: "About us", url: "/" },
-      { title: "Services", url: "/" },
+      { title: "Home", url: "/user" },
+      { title: "About us", url: "/user/footer/about-us" },
+      { title: "Contact", url: "/user/contact" },
     ],
   },
   {
     title: "Medical Services",
     links: [
-      { title: "Online Counselling", url: "/" },
+      { title: "Online Counselling", url: "/user/online-counselling" },
       { title: "Chat with Doctor", url: "/" },
       { title: "Book an Appointment", url: "/" },
     ],
   },
-  // {
-  //   title: "Hỗ trợ",
-  //   links: [
-  //     { title: "Điều Khoản Sử Dụng", url: "/" },
-  //     { title: "Chính sách giải quyết khiếu nại", url: "/" },
-  //     { title: "Chính Sách Bảo Mật", url: "/" },
-  //   ],
-  // },
   {
     title: "Support",
     links: [
-      { title: "Terms of use", url: "/" },
-      { title: "Complaints Handling Policy", url: "/" },
-      { title: "Privacy Policy", url: "/" },
+      { title: "Terms of use", url: "/user/footer/term-of-use" },
+      {
+        title: "Complaints Handling Policy",
+        url: "/user/footer/complaint-handling-policy",
+      },
+      { title: "Privacy Policy", url: "/user/footer/privacy-policy" },
     ],
   },
 ];
@@ -91,8 +86,6 @@ const Footer: React.FC = () => {
             }}
           >
             <Typography>
-              {/* Địa chỉ : 01 Võ Văn Ngân, Linh Chiểu, Thủ Đức, Thành phố Hồ Chí
-              Minh */}
               Address : 01 Võ Văn Ngân, Linh Chiểu, Thủ Đức, Thành phố Hồ Chí
               Minh
             </Typography>
@@ -101,19 +94,42 @@ const Footer: React.FC = () => {
             <Typography>Email : utehealth@gmail.com</Typography>
           </Flex>
           <Flex gap={10}>
-            <Image
-              src="/icons/facebook.svg"
-              alt="icon"
-              width={30}
-              height={30}
-            />
-            <Image
-              src="/icons/instagram.svg"
-              alt="icon"
-              width={30}
-              height={30}
-            />
-            <Image src="/icons/twitter.svg" alt="icon" width={30} height={30} />
+            <a
+              href="https://facebook.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="/icons/facebook.svg"
+                alt="icon"
+                width={30}
+                height={30}
+              />
+            </a>
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="/icons/instagram.svg"
+                alt="icon"
+                width={30}
+                height={30}
+              />
+            </a>
+            <a
+              href="https://x.com/?lang=vi"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="/icons/twitter.svg"
+                alt="icon"
+                width={30}
+                height={30}
+              />
+            </a>
           </Flex>
         </Flex>
 

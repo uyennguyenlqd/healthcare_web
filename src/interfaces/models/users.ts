@@ -9,3 +9,8 @@ export interface UserModelLogin {
   email: string;
   password: string;
 }
+export interface UseModelResetForgotPassword {
+  id: string;
+  token: string;
+  newpassword: string;
+}
