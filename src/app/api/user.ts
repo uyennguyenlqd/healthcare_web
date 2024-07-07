@@ -22,3 +22,12 @@ export const AuthApi = {
     );
   },
 };
+
+export const UserApi = {
+  updateUser: (id: string) => {
+    return userServiceClient.put(`users/update_user/${id}`);
+  },
+  getUserProfile: (id: string) => {
+    return userServiceClient.get(`users/get_user/${id}`);
+  },
+};

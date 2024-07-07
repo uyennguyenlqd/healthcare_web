@@ -8,11 +8,4 @@ export const userServiceClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  //TODO
-
-  // paramsSerializer: {
-  //   serialize: (params) => {
-  //     return qs.stringify(params, { arrayFormat: "repeat", encode: false });
-  //   },
-  // },
 });

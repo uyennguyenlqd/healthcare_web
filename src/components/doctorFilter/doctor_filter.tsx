@@ -1,17 +1,39 @@
 "use client";
-import { Collapse, Flex, Radio, RadioChangeEvent } from "antd";
+import { useEffect, useState } from "react";
+import { Flex, Radio, RadioChangeEvent } from "antd";
 import Search from "antd/es/input/Search";
-import { useState } from "react";
 
-const DoctorFilter: React.FC = () => {
+import { DoctorApi } from "@/app/api/doctor";
+import { Specialty } from "@/interfaces/models/doctors";
+interface DoctorFilterProps {
+  onFilter: (value: string) => void;
+}
+const DoctorFilter: React.FC<DoctorFilterProps> = ({ onFilter }) => {
+  const [specialties, setSpecialty] = useState<Specialty[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [value, setValue] = useState(1);
   const handleOnSearch = (value: string) => {
     setSearchTerm(value);
   };
-  const onChange = (e: RadioChangeEvent) => {
+
+  useEffect(() => {
+    const fetchSpecialties = async () => {
+      try {
+        const response = await DoctorApi.getAllSpecialty();
+        if (response && response.data && response.data.data) {
+          setSpecialty(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching specialties:", error);
+      }
+    };
+
+    fetchSpecialties();
+  }, []);
+  const handleOnChange = (e: RadioChangeEvent) => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
+    onFilter(e.target.value);
   };
   return (
     <Flex style={{ flexDirection: "column" }}>
@@ -21,7 +43,7 @@ const DoctorFilter: React.FC = () => {
         onSearch={handleOnSearch}
       />
       <Radio.Group
-        onChange={onChange}
+        onChange={handleOnChange}
         value={value}
         style={{
           display: "flex",
@@ -31,15 +53,14 @@ const DoctorFilter: React.FC = () => {
           marginTop: "20px",
         }}
       >
-        {/* OVERFLOW DOESN'T WORK */}
-        <Radio value={1}>Heart</Radio>
-        <Radio value={2}>Oxigen</Radio>
-        <Radio value={3}>Heart</Radio>
-        <Radio value={4}>Oxigen</Radio>
-        <Radio value={5}>Heart</Radio>
-        <Radio value={6}>Oxigen</Radio>
-        <Radio value={7}>Heart</Radio>
-        <Radio value={8}>Oxigen</Radio>
+        <Radio key="none" value="">
+          None
+        </Radio>
+        {specialties.map((specialty) => (
+          <Radio key={specialty._id} value={specialty._id}>
+            {specialty.name_specialty}
+          </Radio>
+        ))}
       </Radio.Group>
     </Flex>
   );

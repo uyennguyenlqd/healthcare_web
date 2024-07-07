@@ -2,8 +2,9 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { getSession, useSession } from "next-auth/react";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, notification } from "antd";
+import { Button, Form, Input, notification } from "antd";
 
 import HeaderTitle from "../header/header_title";
 import LoginScreen from "./logScreen";
@@ -25,6 +26,7 @@ const Login: React.FC = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [disableLogin, setDisableLogin] = useState(true);
+
   const togglePassword = () => {
     const newType = typePassword === "password" ? "text" : "password";
     setTypePassword(newType);
@@ -41,7 +43,13 @@ const Login: React.FC = () => {
           message: "Login Successfully",
           duration: 1,
         });
-        router.push("/user/");
+        const session = await getSession();
+
+        if (session?.user.role === "user") {
+          router.push("/user");
+        } else if (session?.user.role === "doctor") {
+          router.push("/doctor");
+        }
       }
     } catch (error) {
       notification.error({

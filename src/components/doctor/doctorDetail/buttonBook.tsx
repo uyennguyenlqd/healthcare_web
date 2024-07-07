@@ -10,29 +10,6 @@ const ButtonBookDoctor: React.FC = () => {
         justifyContent: "center",
       }}
     >
-      <Button
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff",
-          color: "#1b61bd",
-          fontWeight: 500,
-          fontSize: "18px",
-          padding: "0px 20px",
-          borderRadius: "8px",
-          border: "1px solid #1b61bd",
-          minWidth: 144,
-          height: "55px",
-          letterSpacing: "1px",
-          width: "100%",
-        }}
-        onClick={() => {
-          console.log("button");
-        }}
-      >
-        Chat Now
-      </Button>
       <div style={{ display: "flex", gap: "8px" }}>
         <Button
           style={{
@@ -78,7 +55,7 @@ const ButtonBookDoctor: React.FC = () => {
             console.log("button");
           }}
         >
-          Call Video Now
+          Chat Now
         </Button>
       </div>
     </div>

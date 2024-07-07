@@ -1,18 +1,23 @@
+import Link from "next/link";
 import {
   DropboxOutlined,
   EnvironmentOutlined,
+  StarFilled,
   UserAddOutlined,
 } from "@ant-design/icons";
 import { Avatar, Flex } from "antd";
 import Typography from "antd/es/typography/Typography";
-import Link from "next/link";
 
-const DoctorDetailInfo: React.FC = () => {
+import { DoctorModel } from "@/interfaces/models/doctors";
+interface DoctorDetailInfoProps {
+  doctor: DoctorModel;
+}
+
+const DoctorDetailInfo: React.FC<DoctorDetailInfoProps> = ({ doctor }) => {
   return (
     <div>
       <Flex
         style={{
-          //   width: "fit-content",
           border: "solid 0.2px rgba(152, 162, 179, 0.4)",
           borderRadius: "8px",
           padding: "24px",
@@ -25,7 +30,7 @@ const DoctorDetailInfo: React.FC = () => {
           size={200}
           src={
             <img
-              src={"/icons/doctor02.png"}
+              src={doctor.avatar || "/icons/doctor02.png"}
               alt="doctor_card"
               style={{
                 position: "relative",
@@ -52,10 +57,10 @@ const DoctorDetailInfo: React.FC = () => {
               letterSpacing: "0.02em",
             }}
           >
-            BS.CK2 Y K Mishra
+            {doctor.first_name} {doctor.last_name}
           </Typography>
           <div style={{ display: "flex", flexDirection: "row", gap: "16px" }}>
-            <UserAddOutlined size={25} />
+            <UserAddOutlined />
             <Typography
               style={{
                 fontSize: "16px",
@@ -65,23 +70,14 @@ const DoctorDetailInfo: React.FC = () => {
                 letterSpacing: "0.02em",
               }}
             >
-              6 Years of Experiece
+              {doctor.experiences[0].years || null}{" "}
+              {doctor.experiences[0].description || null}
             </Typography>
           </div>
 
           <div style={{ display: "flex", flexDirection: "row", gap: "16px" }}>
-            <DropboxOutlined size={25} />
-            {/* <Typography
-              style={{
-                fontSize: "16px",
-                color: "#303030",
-                textAlign: "center",
-                lineHeight: "24px",
-                letterSpacing: "0.02em",
-              }}
-            >
-              Nhi Khoa
-            </Typography> */}
+            <DropboxOutlined />
+
             <Link
               style={{
                 fontSize: "16px",
@@ -94,11 +90,11 @@ const DoctorDetailInfo: React.FC = () => {
               }}
               href="/"
             >
-              Nhi Khoa
+              {doctor.specialty?.name_specialty}
             </Link>
           </div>
           <div style={{ display: "flex", flexDirection: "row", gap: "16px" }}>
-            <EnvironmentOutlined size={25} />
+            <EnvironmentOutlined />
             <Typography
               style={{
                 fontSize: "16px",
@@ -107,7 +103,20 @@ const DoctorDetailInfo: React.FC = () => {
                 letterSpacing: "0.02em",
               }}
             >
-              01 Võ Văn Ngân, Linh Chiểu, Thủ Đức, Thành phố Hồ Chí Minh
+              {doctor.hospital?.hospital_name}
+            </Typography>
+          </div>
+          <div style={{ display: "flex", flexDirection: "row", gap: "16px" }}>
+            <StarFilled style={{ color: "#FFFF24", fontSize: "22px" }} />
+            <Typography
+              style={{
+                fontSize: "16px",
+                color: "#303030",
+                textAlign: "center",
+                letterSpacing: "0.02em",
+              }}
+            >
+              {doctor.averageRating}
             </Typography>
           </div>
         </Flex>

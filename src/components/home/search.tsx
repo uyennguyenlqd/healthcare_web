@@ -1,34 +1,47 @@
 "use client";
 import { useState } from "react";
-import { Flex } from "antd";
+import { Flex, Space } from "antd";
 import Search from "antd/es/input/Search";
+import { useRouter } from "next/navigation";
 
-const SearchSection: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+interface SearchSectionProps {
+  onSearch: (value: string) => void;
+}
+const SearchSection: React.FC<SearchSectionProps> = ({ onSearch }) => {
+  const router = useRouter();
   const handleOnSearch = (value: string) => {
-    setSearchTerm(value);
+    onSearch(value);
   };
   return (
     <Flex
       style={{
-        width: "800px",
-        margin: "auto",
-        backgroundColor: "#fff",
-        borderRadius: "16px",
-        boxShadow: "1px 16px 16px rgba(0,0,0,0.12)",
+        background: "#F0F8FF",
+        borderRadius: "8px",
+
         flexDirection: "column",
-        // marginTop: "-60px",
-        padding: "16px",
+        padding: "40px ",
       }}
     >
-      <h3 style={{ color: "#10217D", fontSize: "24px" }}>
-        Find Best Healthcare
+      <h3
+        style={{
+          color: "#10217D",
+          fontSize: "36px",
+          fontWeight: "bold",
+          textAlign: "center",
+        }}
+      >
+        Find Best Doctor
       </h3>
-      <Search
-        placeholder="Search By ......"
-        allowClear
-        onSearch={handleOnSearch}
-      />
+      <Space direction="vertical" align="center">
+        <Search
+          placeholder="Search By ......"
+          style={{ width: "800px" }}
+          allowClear
+          enterButton
+          onSearch={handleOnSearch}
+          size="large"
+        />
+      </Space>
     </Flex>
   );
 };

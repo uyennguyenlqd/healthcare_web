@@ -6,16 +6,17 @@ const mock: any = [{}, {}, {}];
 
 const DoctorList: React.FC = () => {
   return (
-    <Flex
-      style={{
-        gap: "32px",
-        flexDirection: "column",
-      }}
-    >
-      {mock.map((_: any, idx: React.Key | null | undefined) => (
-        <DoctorCard />
-      ))}
-    </Flex>
+    // <Flex
+    //   style={{
+    //     gap: "32px",
+    //     flexDirection: "column",
+    //   }}
+    // >
+    //   {mock.map((_: any, idx: React.Key | null | undefined) => (
+    //     <DoctorCard />
+    //   ))}
+    // </Flex>
+    <div></div>
   );
 };
 export default DoctorList;

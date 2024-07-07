@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
 
 import "./globals.css";
-import { SessionProvider } from "next-auth/react";
+
+import LoadingWrapper from "@/components/LoadingWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +22,8 @@ export default function RootLayout({
     <html lang="en">
       <body style={{ margin: 0 }}>
         <SessionProvider>
-          <main>{children}</main>
+          {/* <main>{children}</main> */}
+          <LoadingWrapper>{children}</LoadingWrapper>
         </SessionProvider>
       </body>
     </html>

@@ -1,11 +1,43 @@
 "use client";
-import React, { Fragment, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Button, Flex } from "antd";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Button } from "antd";
 import Typography from "antd/es/typography/Typography";
 
-const mock: any = [{}, {}, {}, {}, {}, {}, {}, {}];
+import { DoctorApi } from "@/app/api/doctor";
+import { Specialty } from "@/interfaces/models/doctors";
+
 const Expect_Spacialty: React.FC = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [specialties, setSpecialty] = useState<Specialty[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [visibleSpecialties, setVisibleSpecialties] = useState<Specialty[]>([]);
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const response = await DoctorApi.getAllSpecialty();
+        if (response && response.data && response.data.data) {
+          setSpecialty(response.data.data);
+          setVisibleSpecialties(response.data.data.slice(0, 20));
+        }
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
+  const handleViewAll = () => {
+    setVisibleSpecialties(specialties);
+  };
+  const handleSpecialtyClick = (specialtyId: string, specialtyName: string) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("specialty", specialtyId);
+    searchParams.set("page", "1");
+    router.push(`/user/online-counselling/search?${searchParams.toString()}`);
+  };
   return (
     <div style={{ backgroundColor: "#F9FBFC", padding: "24px 96px" }}>
       <h3 style={{ color: "#10217D", fontSize: "32px" }}>
@@ -21,7 +53,7 @@ const Expect_Spacialty: React.FC = () => {
           gap: "20px",
         }}
       >
-        {mock.map((_: any, idx: React.Key | null | undefined) => (
+        {visibleSpecialties.map((specialty, idx) => (
           <Button
             key={idx}
             style={{
@@ -35,13 +67,13 @@ const Expect_Spacialty: React.FC = () => {
               alignItems: "center",
               height: "fit-content",
             }}
-            onClick={() => {
-              console.log("button");
-            }}
+            onClick={() =>
+              handleSpecialtyClick(specialty._id, specialty.name_specialty)
+            }
           >
             <Image
-              src="/icons/icons_specialty/icon01.png"
-              alt="doctor"
+              src={specialty.icon || "/icons/icons_specialty/icon01.png"}
+              alt="specialty"
               width={50}
               height={50}
               style={{
@@ -55,11 +87,11 @@ const Expect_Spacialty: React.FC = () => {
               style={{
                 fontWeight: "bold",
                 color: "#122853",
-                fontSize: "18px",
+                fontSize: "14px",
               }}
             >
               {" "}
-              Heart
+              {specialty.name_specialty}
             </Typography>
           </Button>
         ))}
@@ -77,9 +109,7 @@ const Expect_Spacialty: React.FC = () => {
           boxShadow: "none",
           width: "fit-content",
         }}
-        onClick={() => {
-          console.log("button");
-        }}
+        onClick={handleViewAll}
       >
         View All
       </Button>

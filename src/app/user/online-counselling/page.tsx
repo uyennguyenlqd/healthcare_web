@@ -1,30 +1,81 @@
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Divider, Flex } from "antd";
 
-import DoctorList from "@/components/doctor/doctorList";
+import DoctorCard from "@/components/doctor/doctorCard";
 import DoctorFilter from "@/components/doctorFilter/doctor_filter";
+import HealthConsultant from "@/components/home/heath_consultant";
+import SearchSection from "@/components/home/search";
+import { userServiceClient } from "@/config/axios/userService";
+import { DoctorModel } from "@/interfaces/models/doctors";
 
 export default function OnlineCounselling() {
+  const router = useRouter();
+  const [doctors, setDoctors] = useState<DoctorModel[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedSpecialty, setSelectedSpecialty] = useState("");
+  const [searchResults, setSearchResults] = useState<DoctorModel[]>([]);
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        if (searchQuery.trim() !== "") {
+          searchQuery;
+        }
+        const response = await userServiceClient.get("/doctor/get_all_doctor", {
+          params: { query: searchQuery, specialtyId: selectedSpecialty },
+        });
+
+        if (response && response.data && response.data.data) {
+          setSearchResults(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error searching doctors:", error);
+      }
+    };
+    fetchDoctors();
+  }, [searchQuery, selectedSpecialty]);
+
+  const handleSearch = (value: string) => {
+    setSearchQuery(value);
+  };
+  const handleFilter = (value: string) => {
+    setSelectedSpecialty(value);
+  };
   return (
     <Flex
       style={{
         flexDirection: "column",
-        padding: "24px 96px",
+
         backgroundColor: "#F9FBFC",
+        gap: "32px",
       }}
     >
+      <SearchSection onSearch={handleSearch} />
       <div
         style={{
           display: "grid",
           gridTemplateColumns: "0.6fr 0fr 1.4fr",
           gap: "32px",
+          padding: "24px 96px",
         }}
       >
-        <DoctorFilter />
+        <DoctorFilter onFilter={handleFilter} />
         <Divider type="vertical" style={{ height: "100%" }} />
-        <DoctorList />
+        <Flex
+          style={{
+            gap: "32px",
+            flexDirection: "column",
+          }}
+        >
+          {searchResults.map((doctor, idx) => (
+            <DoctorCard key={idx} doctor={doctor} />
+          ))}
+        </Flex>
       </div>
 
-      {/* <HealthConsultant /> */}
+      <HealthConsultant />
     </Flex>
   );
 }

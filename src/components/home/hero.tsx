@@ -1,10 +1,8 @@
 "use client";
 import Image from "next/image";
-import { Button, Flex } from "antd";
-import SearchSection from "./search";
-import Search from "antd/es/input/Search";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button, Flex } from "antd";
+
 const Hero: React.FC = () => {
   const router = useRouter();
   return (

@@ -1,23 +1,8 @@
-import { logOut } from "@/hooks/auth";
 import type { MenuProps } from "antd";
-export const items: MenuProps["items"] = [
-  {
-    label: "Home",
-    key: "home",
-  },
-  {
-    label: "Online Counselling",
-    key: "counselling",
-  },
-  {
-    label: "Medical News",
-    key: "news",
-  },
-  {
-    label: "Contact",
-    key: "contact",
-  },
-];
+
+import ProfilePage from "@/app/user/booking/profile/page";
+import { logOut } from "@/hooks/auth";
+
 export const profileItems: MenuProps["items"] = [
   {
     label: "My Profile",
@@ -33,6 +18,25 @@ export const profileItems: MenuProps["items"] = [
     onClick: () => handleLogout(),
   },
 ];
-export const handleLogout = () => {
-  logOut();
+export const handleLogout = async () => {
+  await logOut();
+};
+export const handleMenuClick = (
+  key: string,
+  setSelectedComponent: React.Dispatch<React.SetStateAction<JSX.Element | null>>
+) => {
+  switch (key) {
+    case "profile":
+      setSelectedComponent(<ProfilePage />);
+      break;
+    case "history_booking":
+      // Handle history booking logic if needed
+      break;
+    case "logout":
+      setSelectedComponent(null);
+      break;
+    default:
+      setSelectedComponent(null);
+      break;
+  }
 };

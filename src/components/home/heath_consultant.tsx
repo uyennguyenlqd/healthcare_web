@@ -24,10 +24,11 @@ export const list = [
 //FOR COUNSELLING ONLINE PAGE
 const HealthConsultant: React.FC = () => {
   return (
-    <div>
+    <div style={{ padding: "24px 96px", backgroundColor: "#F0F8FF" }}>
       <div
         style={{
           padding: "24px 0",
+
           display: "grid",
           gridTemplateColumns: "1fr 1fr 1fr",
           gap: "20px",
@@ -41,6 +42,7 @@ const HealthConsultant: React.FC = () => {
               flexDirection: "column",
               border: "solid 0.2px rgba(152, 162, 179, 0.4)",
               borderRadius: "8px",
+              backgroundColor: "#fff",
               padding: "10px",
 
               justifyContent: "flex-start",
