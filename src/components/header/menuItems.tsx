@@ -23,7 +23,9 @@ export const handleLogout = async () => {
 };
 export const handleMenuClick = (
   key: string,
-  setSelectedComponent: React.Dispatch<React.SetStateAction<JSX.Element | null>>
+  setSelectedComponent: React.Dispatch<
+    React.SetStateAction<JSX.Element | null>
+  >,
 ) => {
   switch (key) {
     case "profile":

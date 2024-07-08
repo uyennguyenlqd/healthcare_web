@@ -33,7 +33,8 @@ let Header: React.FC = () => {
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-
+  const [avatar, setAvatar] = useState("/icons/usericon.jpg");
+  const [name, setName] = useState("");
   useEffect(() => {
     if (status !== "loading") {
       setIsLoading(false);
@@ -62,14 +63,15 @@ let Header: React.FC = () => {
         break;
     }
   };
-
+  //TODO:=> AFTER LOGOUT =>CAN'T NAVIGATE TOPAGE USER
   const handleClickProfile: MenuProps["onClick"] = (e) => {
     setCurrent(e.key);
     switch (e.key) {
       case "profile":
-        router.push("/user/booking");
+        router.push("/user/booking/profile");
         break;
       case "history_booking":
+        router.push("/user/booking/payment");
         break;
       case "logout":
         break;

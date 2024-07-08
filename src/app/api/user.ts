@@ -18,7 +18,7 @@ export const AuthApi = {
   resetForgotPassword: (data: UseModelResetForgotPassword) => {
     return userServiceClient.post(
       `/auth/resetpassword/${data.id}/${data.token}`,
-      { newpassword: data.newpassword }
+      { newpassword: data.newpassword },
     );
   },
 };

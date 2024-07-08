@@ -17,14 +17,16 @@ export default function OnlineCounselling() {
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [searchResults, setSearchResults] = useState<DoctorModel[]>([]);
 
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams();
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        if (searchQuery.trim() !== "") {
-          searchQuery;
-        }
+        const query = searchParams.get("query") || "";
+        const specialtyId = searchParams.get("specialtyId") || "";
+
         const response = await userServiceClient.get("/doctor/get_all_doctor", {
-          params: { query: searchQuery, specialtyId: selectedSpecialty },
+          params: { query, specialtyId },
         });
 
         if (response && response.data && response.data.data) {
@@ -34,14 +36,19 @@ export default function OnlineCounselling() {
         console.error("Error searching doctors:", error);
       }
     };
+
     fetchDoctors();
-  }, [searchQuery, selectedSpecialty]);
+  }, [searchParams]);
 
   const handleSearch = (value: string) => {
-    setSearchQuery(value);
+    params.set("query", value);
+    router.push(`/user/online-counselling?${params.toString()}`);
   };
   const handleFilter = (value: string) => {
-    setSelectedSpecialty(value);
+    // setSelectedSpecialty(value);
+
+    params.set("specialtyId", value);
+    router.push(`/user/online-counselling?${params.toString()}`);
   };
   return (
     <Flex

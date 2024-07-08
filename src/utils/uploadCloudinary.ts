@@ -15,7 +15,7 @@ const uploadImagetoCloudinary = async (file: File) => {
     {
       method: "POST",
       body: uploadData,
-    }
+    },
   );
   const data = await res.json();
   return data;

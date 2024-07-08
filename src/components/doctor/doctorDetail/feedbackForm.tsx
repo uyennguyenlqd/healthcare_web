@@ -49,7 +49,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ doctor }) => {
               color: starClass === "#E8E800" ? "#E8E800" : "#C8C8C8",
             }}
           />
-        </Button>
+        </Button>,
       );
     }
 
@@ -83,7 +83,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ doctor }) => {
 
       const res = await fetch(
         `${ENV}/api/v1/doctor/${doctor._id}/reviews`,
-        requestOptions
+        requestOptions,
       );
       const result = await res.json();
 

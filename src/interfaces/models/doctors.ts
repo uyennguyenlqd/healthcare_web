@@ -44,4 +44,9 @@ export interface DoctorModel {
   phone?: string;
   roles: string;
   bio?: string;
+  timeslots?: {
+    start: string;
+    end: string;
+    _id?: string;
+  }[];
 }

@@ -1,25 +1,39 @@
+import { useRouter } from "next/navigation";
 import { Menu } from "antd";
 
 import { profileItems } from "../header/menuItems";
-
-interface MenuProfileProps {
-  onMenuClick: (key: string) => void;
-}
-
-const MenuProfile: React.FC<MenuProfileProps> = ({ onMenuClick }) => {
+const MenuProfile: React.FC = () => {
+  const router = useRouter();
+  const handleMenuClick = (key: string) => {
+    switch (key) {
+      case "profile":
+        router.push("/user/booking/profile");
+        break;
+      case "history_booking":
+        router.push("/user/booking/payment");
+        break;
+      default:
+        break;
+    }
+  };
   return (
     <Menu
       items={profileItems}
-      onClick={(e) => onMenuClick(e.key)}
+      onClick={(e) => handleMenuClick(e.key)}
       style={{
         maxHeight: "150px",
         borderBottom: "none",
         borderRadius: "16px",
-        marginLeft: "20px",
-        marginTop: "48px",
+        marginLeft: "24px",
+        marginRight: "24px",
+        marginTop: "56px",
         padding: "8px 16px",
+        fontSize: "16px",
       }}
-    />
+    >
+      <Menu.Item key="profile">My Profile</Menu.Item>
+      <Menu.Item key="history_booking">My booking history</Menu.Item>
+    </Menu>
   );
 };
 

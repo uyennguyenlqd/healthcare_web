@@ -12,9 +12,8 @@ const AdditionalInformation: React.FC = () => {
         style={{
           flexDirection: "column",
           justifyContent: "center",
-          padding: "0 40px 40px 40px",
+          padding: "24px 96px",
           gap: "16px",
-          width: "88%",
         }}
       >
         <Typography

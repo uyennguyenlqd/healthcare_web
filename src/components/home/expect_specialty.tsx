@@ -32,11 +32,10 @@ const Expect_Spacialty: React.FC = () => {
   const handleViewAll = () => {
     setVisibleSpecialties(specialties);
   };
-  const handleSpecialtyClick = (specialtyId: string, specialtyName: string) => {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("specialty", specialtyId);
-    searchParams.set("page", "1");
-    router.push(`/user/online-counselling/search?${searchParams.toString()}`);
+  const handleSpecialtyClick = (specialtyId: string) => {
+    const params = new URLSearchParams();
+    params.set("specialtyId", specialtyId);
+    router.push(`/user/online-counselling?${params.toString()}`);
   };
   return (
     <div style={{ backgroundColor: "#F9FBFC", padding: "24px 96px" }}>
@@ -67,9 +66,7 @@ const Expect_Spacialty: React.FC = () => {
               alignItems: "center",
               height: "fit-content",
             }}
-            onClick={() =>
-              handleSpecialtyClick(specialty._id, specialty.name_specialty)
-            }
+            onClick={() => handleSpecialtyClick(specialty._id)}
           >
             <Image
               src={specialty.icon || "/icons/icons_specialty/icon01.png"}

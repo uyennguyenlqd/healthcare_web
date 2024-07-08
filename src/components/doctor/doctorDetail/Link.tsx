@@ -16,7 +16,7 @@ const Link: React.ForwardRefExoticComponent<TLinkProps> = React.forwardRef(
     const router = useRouter();
     const dispatch = useAppDispatch();
     const handleOnClick = (
-      e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+      e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     ) => {
       if (rest.href === "#") {
         e.preventDefault();
@@ -35,7 +35,7 @@ const Link: React.ForwardRefExoticComponent<TLinkProps> = React.forwardRef(
         {children}
       </NextLink>
     );
-  }
+  },
 );
 
 export default Link;

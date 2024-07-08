@@ -22,6 +22,6 @@ export const questions = [
 //     experience:"6 Years of Experiece",
 //     spacialty:"Nhi Khoa",
 //     address:"01 Võ Văn Ngân, Linh Chiểu, Thủ Đức, Thành phố Hồ Chí Minh",
-   
+
 //   },
 // ];

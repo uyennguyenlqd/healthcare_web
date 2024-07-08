@@ -11,6 +11,7 @@ import {
   GetProp,
   Input,
   message,
+  notification,
   Radio,
   RadioChangeEvent,
   Spin,
@@ -33,9 +34,8 @@ const Profile: React.FC<Props> = ({ mode: initialMode }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const { data: UserProfileModel, loading } = useFetchData(
-    `${ENV}/api/v1/users/profile`
+    `${ENV}/api/v1/users/profile`,
   );
-  console.log(UserProfileModel);
 
   useEffect(() => {
     if (UserProfileModel) {
@@ -45,8 +45,8 @@ const Profile: React.FC<Props> = ({ mode: initialMode }) => {
         gender: UserProfileModel.gender,
         email: UserProfileModel.email,
         phone: UserProfileModel.phone,
-        birthday: UserProfileModel.birthday
-          ? dayjs(UserProfileModel.birthday)
+        day_of_birth: UserProfileModel.day_of_birth
+          ? dayjs(UserProfileModel.day_of_birth)
           : null,
       });
       setValue(UserProfileModel.gender);
@@ -60,8 +60,12 @@ const Profile: React.FC<Props> = ({ mode: initialMode }) => {
         return field.errors.length > 0;
       }) || !form.isFieldsTouched(true);
   };
-  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-    console.log(date, dateString);
+  const onChangeDatePicker: DatePickerProps["onChange"] = (
+    date,
+    dateString,
+  ) => {
+    console.log("Date", date.format("YYYY-MM-DD"), dateString);
+    form.setFieldsValue({ birthday: dateString });
   };
   type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
   const beforeUpload = (file: FileType) => {
@@ -81,13 +85,51 @@ const Profile: React.FC<Props> = ({ mode: initialMode }) => {
     setPreviewUrl(data.url);
     setSelectedFile(data.url);
   };
+  //handle update profile
+  const onSaveProfile = async () => {
+    try {
+      if (!UserProfileModel) {
+        throw new Error("User profile data is not available.");
+      }
+      const formData = form.getFieldsValue();
+      if (selectedFile) {
+        formData.avatar = selectedFile;
+      }
+
+      if (formData.day_of_birth) {
+        formData.day_of_birth = formData.day_of_birth.format("YYYY-MM-DD");
+      }
+
+      const response = await fetch(
+        `${ENV}/api/v1/users/update_user/${UserProfileModel._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        },
+      );
+      console.log("Avatar", formData.avatar);
+      if (!response.ok) {
+        throw new Error("Failed to update user.");
+      }
+      notification.success({ message: "User profile updated successfully." });
+
+      setMode("view");
+    } catch (error) {
+      notification.error({ message: "Failed to update profile." });
+      console.error("Error updating profile:", error);
+    }
+  };
   return (
     <div
       style={{
         padding: "24px 96px",
         display: "flex",
         flexDirection: "column",
-        width: "700px",
+        backgroundColor: "#fff",
+        borderRadius: "8px",
         gap: "16px",
         margin: "auto",
       }}
@@ -136,6 +178,7 @@ const Profile: React.FC<Props> = ({ mode: initialMode }) => {
                 backgroundColor: "#1b61bd",
                 fontSize: "16px",
                 width: "100%",
+                height: "45px",
               }}
               onClick={() => {
                 setMode("edit");
@@ -151,10 +194,9 @@ const Profile: React.FC<Props> = ({ mode: initialMode }) => {
                   alignItems: "center",
                   backgroundColor: "#1b61bd",
                   fontSize: "16px",
+                  height: "45px",
                 }}
-                onClick={() => {
-                  setMode("view");
-                }}
+                onClick={onSaveProfile}
               >
                 Save
               </Button>
@@ -164,6 +206,8 @@ const Profile: React.FC<Props> = ({ mode: initialMode }) => {
                   alignItems: "center",
                   backgroundColor: "#B50000",
                   fontSize: "16px",
+
+                  height: "45px",
                 }}
                 onClick={() => {
                   setMode("view");
@@ -176,7 +220,13 @@ const Profile: React.FC<Props> = ({ mode: initialMode }) => {
         </div>
       </div>
       <Form layout="vertical" form={form} onFieldsChange={onFieldsChange}>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div
+          style={{
+            width: "50%",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <Form.Item label="First Name" name="first_name">
             <Input
               size="large"
@@ -192,8 +242,8 @@ const Profile: React.FC<Props> = ({ mode: initialMode }) => {
             />
           </Form.Item>
         </div>
-        <Form.Item label="Birthday" name="birthday">
-          <DatePicker onChange={onChange} style={{ width: "100%" }} />
+        <Form.Item label="Birthday" name="day_of_birth">
+          <DatePicker onChange={onChangeDatePicker} style={{ width: "100%" }} />
         </Form.Item>
         <Form.Item label="Gender" name="gender">
           <Radio.Group
@@ -213,6 +263,7 @@ const Profile: React.FC<Props> = ({ mode: initialMode }) => {
           <Input
             size="large"
             type="email"
+            disabled
             style={{ border: "1px solid #7E7E7E" }}
             autoComplete="email"
           />

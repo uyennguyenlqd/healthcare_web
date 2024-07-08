@@ -19,14 +19,14 @@ const FeedbackSection: React.FC<DoctorFeedbackProps> = ({ doctor }) => {
     for (let i = 0; i < 5; i++) {
       if (i < filledStars) {
         stars.push(
-          <StarFilled key={i} style={{ color: "#E8E800", fontSize: "18px" }} />
+          <StarFilled key={i} style={{ color: "#E8E800", fontSize: "18px" }} />,
         );
       } else {
         stars.push(
           <StarOutlined
             key={i}
             style={{ color: "#E8E800", fontSize: "18px" }}
-          />
+          />,
         );
       }
     }
