@@ -1,11 +1,12 @@
 import { useState } from "react";
 
 import CalendarCard from "../DateTimePicker/calendar";
-import DateTimeTabs from "../DateTimePicker/dateTimePickerTabs";
 
 import { DoctorModel } from "@/interfaces/models/doctors";
 interface AddOnlineCounsellingTabProps {
   doctor: DoctorModel;
+  onSelectTime: (timeslot: string) => void;
+  onSelectDate: (date: string) => void;
 }
 interface TimeSlot {
   start: string;
@@ -13,10 +14,9 @@ interface TimeSlot {
 }
 const AddOnlineCounsellingTab: React.FC<AddOnlineCounsellingTabProps> = ({
   doctor,
+  onSelectTime,
+  onSelectDate,
 }) => {
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(
-    null,
-  );
   return (
     <div
       style={{
@@ -27,10 +27,10 @@ const AddOnlineCounsellingTab: React.FC<AddOnlineCounsellingTabProps> = ({
         margin: "auto",
       }}
     >
-      <CalendarCard />
-      <DateTimeTabs
+      <CalendarCard
         doctor={doctor}
-        setSelectedTimeSlot={(timeslot) => setSelectedTimeSlot(timeslot)}
+        onSelectTime={onSelectTime}
+        onSelectDate={onSelectDate}
       />
     </div>
   );

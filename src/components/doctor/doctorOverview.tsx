@@ -1,8 +1,6 @@
 import { useRouter } from "next/navigation";
 import { Button } from "antd";
 
-import CalendarCard from "../DateTimePicker/calendar";
-import DateTimeTabs from "../DateTimePicker/dateTimePickerTabs";
 import AboutDoctor from "./doctorDetail/aboutdoctor";
 
 import { DoctorModel } from "@/interfaces/models/doctors";
@@ -17,7 +15,6 @@ const DoctorOverviewSection: React.FC<DoctorOverviewSectionProps> = ({
   return (
     <div style={{ gap: "24px", display: "flex", flexDirection: "column" }}>
       <AboutDoctor doctor={doctor} />
-      <CalendarCard />
 
       <div
         style={{

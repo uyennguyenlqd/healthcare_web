@@ -1,3 +1,5 @@
-export default function PaymentPage() {
-  return <div></div>;
+import MyBooking from "@/components/user/myBooking";
+
+export default function MyAppointmentPage() {
+  return <MyBooking />;
 }

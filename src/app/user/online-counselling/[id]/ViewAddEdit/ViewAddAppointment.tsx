@@ -1,10 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { Tabs, TabsProps } from "antd";
 
 import { DoctorApi } from "@/app/api/doctor";
 import AddOnlineCounsellingTab from "@/components/addNewAppointment/addOnlineCounsellingTab";
-import OnlineConfirmationTab from "@/components/addNewAppointment/appointmentConfirmation";
 import ConsultationBooking from "@/components/user/consultationBooking";
 import UserProfile from "@/components/user/userProfile";
 import { DoctorModel } from "@/interfaces/models/doctors";
@@ -19,6 +20,19 @@ interface OnlCounsellingProps {
 const OnlineCounsellingTabs: React.FC<OnlCounsellingProps> = ({ id }) => {
   const [doctor, setDoctor] = useState<DoctorModel>();
   const [loading, setLoading] = useState(true);
+
+  const [selectedTimeslot, setSelectedTimeslot] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [currentTab, setCurrentTab] = useState<string>("1");
+  const [notes, setNotes] = useState<string>("");
+  const [uploadUrl, setUploadUrl] = useState("");
+  const router = useRouter();
+  const { data: session } = useSession();
+  useEffect(() => {
+    if (!loading && !session?.user) {
+      router.push("/auth/login");
+    }
+  }, [loading, router, session]);
 
   useEffect(() => {
     const fetchDoctor = async () => {
@@ -39,31 +53,29 @@ const OnlineCounsellingTabs: React.FC<OnlCounsellingProps> = ({ id }) => {
   if (!doctor) {
     return null;
   }
+  const handleSelectTimeAndDate = (timeslot: string, date: string) => {
+    setSelectedTimeslot(timeslot);
+    setSelectedDate(date);
+    setCurrentTab("2");
+  };
   const items: TabsProps["items"] = [
     {
       key: "1",
       label: "Add Online Counselling",
-      children: <AddOnlineCounsellingTab doctor={doctor} />,
+      children: (
+        <AddOnlineCounsellingTab
+          doctor={doctor}
+          onSelectTime={setSelectedTimeslot}
+          onSelectDate={setSelectedDate}
+        />
+      ),
     },
     {
       key: "2",
       label: "Patient Record",
-      children: <UserProfile />,
-    },
-    {
-      key: "3",
-      label: "Confirmation",
-      children: <OnlineConfirmationTab />,
-    },
-    {
-      key: "4",
-      label: "Payment",
-      children: "Content of Tab Pane 3",
-    },
-    {
-      key: "5",
-      label: "Receive an appointment",
-      children: "Content of Tab Pane 3",
+      children: (
+        <UserProfile onChangeNotes={setNotes} uploadedFileUrl={setUploadUrl} />
+      ),
     },
   ];
   return (
@@ -82,7 +94,13 @@ const OnlineCounsellingTabs: React.FC<OnlCounsellingProps> = ({ id }) => {
         onChange={onTabChange}
         type="line"
       />
-      <ConsultationBooking doctor={doctor} />
+      <ConsultationBooking
+        doctor={doctor}
+        selectedTimeslot={selectedTimeslot}
+        selectedDate={selectedDate}
+        notes={notes}
+        url={uploadUrl}
+      />
     </div>
   );
 };
