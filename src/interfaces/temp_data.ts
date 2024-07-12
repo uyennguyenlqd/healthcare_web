@@ -15,13 +15,3 @@ export const questions = [
       "We don't provide \"official\" solutions for the challenges. This is because there is no single perfect way to complete a challenge. Instead, you're encouraged to review other people's code in the community. You can learn so much by seeing how other people have approached the same challenges and giving them feedback.",
   },
 ];
-
-// export const doctorInfo = [
-//   { source: "/icons/doctor02.png",
-//     name: " BS.CK2 Y K Mishra",
-//     experience:"6 Years of Experiece",
-//     spacialty:"Nhi Khoa",
-//     address:"01 Võ Văn Ngân, Linh Chiểu, Thủ Đức, Thành phố Hồ Chí Minh",
-
-//   },
-// ];

@@ -1,13 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import type { MenuProps } from "antd";
 import { Avatar, Button, Dropdown, Flex, Menu, Typography } from "antd";
 import styled from "styled-components";
 
 import HeaderTitle from "./header_title";
 import { profileItems } from "./menuItems";
+import { logOut } from "@/hooks/auth";
 
 //TODO: AUTO REFRESH PAGE WHEN LOGIN, SIGNOUT WITHOUT PRESSING F5
 
@@ -41,6 +42,15 @@ let Header: React.FC = () => {
     }
   }, [status]);
 
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    console.log("session: " + session);
+    console.log("status: " + status);
+    if (session?.user) {
+      setIsLogin(true);
+    }
+  }, [session]);
+
   const [changeColorButton, setChangeColorButton] = useState(false);
   const [current, setCurrent] = useState("home");
   const onClick: MenuProps["onClick"] = (e) => {
@@ -54,7 +64,7 @@ let Header: React.FC = () => {
         router.push("/user/online-counselling");
         break;
       case "news":
-        router.push("/");
+        router.push("/user/news");
         break;
       case "contact":
         router.push("/user/contact");
@@ -64,7 +74,7 @@ let Header: React.FC = () => {
     }
   };
   //TODO:=> AFTER LOGOUT =>CAN'T NAVIGATE TOPAGE USER
-  const handleClickProfile: MenuProps["onClick"] = (e) => {
+  const handleClickProfile: MenuProps["onClick"] = async (e) => {
     setCurrent(e.key);
     switch (e.key) {
       case "profile":
@@ -73,10 +83,12 @@ let Header: React.FC = () => {
       case "history_booking":
         router.push("/user/booking/payment");
         break;
-      case "logout":
-        break;
-      default:
-        break;
+      case "logout": {
+        await signOut().then(() => {
+          window.location.href = "/";
+          window.location.reload();
+        });
+      }
     }
   };
   return (
@@ -105,11 +117,16 @@ let Header: React.FC = () => {
         }}
       />
       <div>
-        {session?.user ? (
+        {isLogin ? (
           <Dropdown
             trigger={["click"]}
             // menu={{ items: profileItems }}
-            overlay={<Menu onClick={handleClickProfile} items={profileItems} />}
+            overlay={
+              <Menu
+                onClick={async (e) => await handleClickProfile(e)}
+                items={profileItems}
+              />
+            }
           >
             <div>
               {session.user.image || session.user.avatar ? (
@@ -151,7 +168,6 @@ let Header: React.FC = () => {
             onClick={() => {
               setChangeColorButton((prev) => !prev);
               router.push("/auth/login");
-              console.log("button");
             }}
           >
             LOGIN

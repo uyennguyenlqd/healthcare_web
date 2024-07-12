@@ -46,7 +46,8 @@ const Login: React.FC = () => {
         const session = await getSession();
 
         if (session?.user.role === "user") {
-          router.push("/user");
+          window.location.href = "/user";
+          // router.push("/user");
         } else if (session?.user.role === "doctor") {
           router.push("/doctor");
         }

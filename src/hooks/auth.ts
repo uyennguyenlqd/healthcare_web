@@ -25,7 +25,7 @@ export async function performLogin(values: {
 
 export async function logOut() {
   await signOut().then(() => {
-    window.location.href = "/user";
+    window.location.href = "/";
     window.location.reload();
   });
 }

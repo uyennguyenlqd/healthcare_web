@@ -24,33 +24,31 @@ const DoctorOverviewSection: React.FC<DoctorOverviewSectionProps> = ({
           justifyContent: "center",
         }}
       >
-        <div style={{ display: "flex", gap: "8px" }}>
-          <Button
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#1b61bd",
-              color: "#fff",
-              fontWeight: 500,
-              fontSize: "18px",
-              padding: "0px 20px",
-              borderRadius: "8px",
-              border: "1px solid #1677FF",
-              minWidth: 144,
-              height: "55px",
-              letterSpacing: "1px",
-              width: "50%",
-            }}
-            onClick={() => {
-              router.push(
-                `/user/online-counselling/${doctor._id}/add-onlcounselling`,
-              );
-            }}
-          >
-            Book an Appointment
-          </Button>
-          <Button
+        <Button
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#1b61bd",
+            color: "#fff",
+            fontWeight: 500,
+            fontSize: "18px",
+            padding: "0px 20px",
+            borderRadius: "8px",
+            border: "1px solid #1677FF",
+            minWidth: 144,
+            height: "55px",
+            letterSpacing: "1px",
+          }}
+          onClick={() => {
+            router.push(
+              `/user/online-counselling/${doctor._id}/add-onlcounselling`
+            );
+          }}
+        >
+          Book an Appointment
+        </Button>
+        {/* <Button
             style={{
               display: "flex",
               justifyContent: "center",
@@ -72,8 +70,7 @@ const DoctorOverviewSection: React.FC<DoctorOverviewSectionProps> = ({
             }}
           >
             Chat Now
-          </Button>
-        </div>
+          </Button> */}
       </div>
     </div>
   );

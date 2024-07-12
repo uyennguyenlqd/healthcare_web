@@ -135,33 +135,11 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
             }}
             onClick={() => {
               router.push(
-                `/user/online-counselling/${doctor._id}/add-onlcounselling`,
+                `/user/online-counselling/${doctor._id}/add-onlcounselling`
               );
             }}
           >
             Book an Appointment
-          </Button>
-          <Button
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#17C256",
-              color: "#fff",
-              fontWeight: 500,
-              fontSize: "16px",
-              padding: "0px 20px",
-              borderRadius: "8px",
-              border: "1px solid #17C256",
-              minWidth: 144,
-              height: "45px",
-              letterSpacing: "1px",
-            }}
-            onClick={() => {
-              console.log("button");
-            }}
-          >
-            Chat Now
           </Button>
         </Flex>
       </Flex>

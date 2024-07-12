@@ -16,7 +16,7 @@ export const profileItems: MenuProps["items"] = [
   {
     label: "Logout",
     key: "logout",
-    onClick: () => handleLogout(),
+    onClick: async () => await handleLogout(),
   },
 ];
 export const handleLogout = async () => {
@@ -24,9 +24,7 @@ export const handleLogout = async () => {
 };
 export const handleMenuClick = (
   key: string,
-  setSelectedComponent: React.Dispatch<
-    React.SetStateAction<JSX.Element | null>
-  >,
+  setSelectedComponent: React.Dispatch<React.SetStateAction<JSX.Element | null>>
 ) => {
   switch (key) {
     case "profile":
