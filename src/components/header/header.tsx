@@ -117,7 +117,7 @@ let Header: React.FC = () => {
         }}
       />
       <div>
-        {isLogin ? (
+        {isLogin && session ? (
           <Dropdown
             trigger={["click"]}
             // menu={{ items: profileItems }}
