@@ -30,7 +30,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({ onSearch }) => {
           textAlign: "center",
         }}
       >
-        Find Best Doctor
+        Find Best Therapist
       </h3>
       <Space direction="vertical" align="center">
         <Search

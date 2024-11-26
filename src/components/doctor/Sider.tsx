@@ -4,8 +4,10 @@ import React, { FC } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   DashboardOutlined,
+  DollarOutlined,
   FileDoneOutlined,
-  MessageOutlined,
+  FileProtectOutlined,
+  FormOutlined,
   SettingOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
@@ -40,9 +42,23 @@ const SiderContent: FC = () => {
       url: "/doctor/patients",
     },
     {
-      key: "Message",
-      label: "Message",
-      icon: <MessageOutlined style={{ fontSize: "20px" }} />,
+      key: "Therapist's Corner",
+      label: "Therapist's Corner",
+      icon: <FileProtectOutlined style={{ fontSize: "20px" }} />,
+      style: { color: "#06417C", fontSize: "16px", marginBottom: "12px" },
+      url: "/doctor",
+    },
+    {
+      key: "Notes",
+      label: "Notes",
+      icon: <FormOutlined style={{ fontSize: "20px" }} />,
+      style: { color: "#06417C", fontSize: "16px", marginBottom: "12px" },
+      url: "/doctor",
+    },
+    {
+      key: "Billing",
+      label: "Billings",
+      icon: <DollarOutlined style={{ fontSize: "20px" }} />,
       style: { color: "#06417C", fontSize: "16px", marginBottom: "12px" },
       url: "/doctor",
     },
@@ -68,7 +84,7 @@ const SiderContent: FC = () => {
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        gap: "40px",
+        gap: "64px",
       }}
     >
       <div style={{ paddingLeft: "24px" }}>

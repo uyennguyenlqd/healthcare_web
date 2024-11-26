@@ -1,30 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Calendar, theme, Typography } from "antd";
+import axios from "axios";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 
-import { DoctorModel } from "@/interfaces/models/doctors";
+import { ENV } from "@/constants/env";
+import {
+  DoctorModel,
+  ScheduleModel,
+  TimeSlotModel,
+} from "@/interfaces/models/doctors";
 interface DoctorCardProps {
   doctor: DoctorModel;
+  schedule: ScheduleModel[];
   onSelectTime: (timeslot: string) => void;
   onSelectDate: (date: string) => void;
 }
 
 const CalendarCard: React.FC<DoctorCardProps> = ({
   doctor,
+  schedule,
   onSelectTime,
   onSelectDate,
 }) => {
   const [value, setValue] = useState<Dayjs>(() => dayjs());
   const [selectedValue, setSelectedValue] = useState<Dayjs>(() => dayjs());
   const [selectedTimeslot, setSelectedTimeslot] = useState<string>("");
-
+  const [doctorTimeslots, setDoctorTimeslots] = useState<TimeSlotModel[]>([]);
   const { token } = theme.useToken();
   const wrapperStyle: React.CSSProperties = {
     border: "solid 0.2px rgba(152, 162, 179, 0.4)",
     borderRadius: token.borderRadiusLG,
   };
-  const doctortimeslots = doctor?.timeslots || [];
+  useEffect(() => {
+    // Gọi API để lấy lịch trình bác sĩ cho ngày đã chọn
+    const fetchSchedule = async () => {
+      try {
+        const response = await axios.get(
+          `${ENV}/api/v1/schedule/by-date?doctorId=${doctor._id}&date=${selectedValue.format("YYYY-MM-DD")}`
+        );
+        setDoctorTimeslots(response.data.schedule.timeSlots || []);
+      } catch (error) {
+        console.error("Error fetching schedule:", error);
+        setDoctorTimeslots([]);
+      }
+    };
+
+    fetchSchedule();
+  }, [selectedValue, doctor._id]); // Gọi lại khi ngày hoặc doctorId thay đổi
+
+  // const doctortimeslots = doctor?.timeslots || [];
   const onSelect = (newValue: Dayjs) => {
     setValue(newValue);
     setSelectedValue(newValue);
@@ -41,7 +66,9 @@ const CalendarCard: React.FC<DoctorCardProps> = ({
     onSelectTime(timeslot);
   };
   const disabledDate = (current: Dayjs) => {
-    return current.isBefore(dayjs(), "day");
+    const today = dayjs().startOf("day");
+    const sevenDaysFromNow = today.clone().add(7, "days");
+    return current < today || current > sevenDaysFromNow;
   };
   return (
     <div
@@ -74,6 +101,7 @@ const CalendarCard: React.FC<DoctorCardProps> = ({
           disabledDate={disabledDate}
         />
       </div>
+
       <div
         style={{
           border: "solid 0.2px rgba(152, 162, 179, 0.4)",
@@ -91,7 +119,7 @@ const CalendarCard: React.FC<DoctorCardProps> = ({
             gap: "20px",
           }}
         >
-          {doctortimeslots.map((timeslot, idx) => (
+          {doctorTimeslots.map((timeslot, idx) => (
             <Button
               key={idx}
               style={{
@@ -105,8 +133,10 @@ const CalendarCard: React.FC<DoctorCardProps> = ({
                 height: "fit-content",
               }}
               onClick={() =>
+                !timeslot.isBooked &&
                 onSelectTimeSlot(`${timeslot.start} - ${timeslot.end}`)
               }
+              disabled={timeslot.isBooked}
             >
               <Typography
                 style={{

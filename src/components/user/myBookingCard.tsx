@@ -1,6 +1,11 @@
 "use client";
 import { useState } from "react";
-import { ClockCircleOutlined, EnvironmentOutlined } from "@ant-design/icons";
+import {
+  ClockCircleOutlined,
+  EnvironmentOutlined,
+  FormOutlined,
+  PaperClipOutlined,
+} from "@ant-design/icons";
 import { Avatar, Button, Flex, Modal, notification, Typography } from "antd";
 
 import { ENV } from "@/constants/env";
@@ -91,7 +96,7 @@ const MyBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                 letterSpacing: "0.02em",
               }}
             >
-              Appointment On {booking.appointmentDate}
+              Appointment On: {booking.appointmentDate}
             </Typography>
           </div>
           <div style={{ display: "flex", flexDirection: "row", gap: "16px" }}>
@@ -104,7 +109,39 @@ const MyBookingCard: React.FC<BookingCardProps> = ({ booking }) => {
                 letterSpacing: "0.02em",
               }}
             >
-              At Time {booking.timeslot}
+              At Time: {booking.timeslot}
+            </Typography>
+          </div>
+          <div style={{ display: "flex", flexDirection: "row", gap: "16px" }}>
+            <FormOutlined />
+            <Typography
+              style={{
+                fontSize: "16px",
+                color: "#303030",
+                textAlign: "center",
+                letterSpacing: "0.02em",
+              }}
+            >
+              Notes: {booking.notes}
+            </Typography>
+          </div>
+          <div style={{ display: "flex", flexDirection: "row", gap: "16px" }}>
+            <PaperClipOutlined />
+            <Typography
+              style={{
+                fontSize: "16px",
+                color: "#303030",
+                textAlign: "center",
+                letterSpacing: "0.02em",
+              }}
+            >
+              <a
+                href={booking.doctor.meet_link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Link meeting {booking.doctor.meet_link}
+              </a>
             </Typography>
           </div>
         </Flex>

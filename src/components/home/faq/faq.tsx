@@ -1,7 +1,8 @@
-import Image from "next/image";
 import { FC } from "react";
-import FaqItem from "./faq_item";
+import Image from "next/image";
 import { Flex } from "antd";
+
+import FaqItem from "./faq_item";
 type Props = {
   question: string;
   answer: string;
@@ -14,7 +15,7 @@ interface FaqProps {
 const Faq: FC<FaqProps> = ({ data }) => {
   return (
     <div style={{ background: "#F0F8FF", padding: "24px 96px" }}>
-      <h3 style={{ color: "#10217D", fontSize: "32px" }}>
+      <h3 style={{ color: "#10217D", fontSize: "36px" }}>
         Frequently Asked Questions
       </h3>
       <div
@@ -25,16 +26,15 @@ const Faq: FC<FaqProps> = ({ data }) => {
         }}
       >
         <Image
-          src="/icons/doctor_client.jpg"
+          src="/icons/MH_FAQ.jpeg"
           alt="doctor"
-          width={400}
-          height={400}
+          width={600}
+          height={600}
           style={{
-            position: "relative",
             objectFit: "cover",
-            objectPosition: "center",
+
             borderRadius: "8px",
-            boxShadow: "16px 16px #fff",
+            boxShadow: "24px 24px #fff",
           }}
         />
         <Flex style={{ flexDirection: "column", gap: "20px" }}>

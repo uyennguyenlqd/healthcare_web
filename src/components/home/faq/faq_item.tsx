@@ -30,6 +30,7 @@ const FaqItem: React.FC<Props> = ({ question, answer }) => {
           backgroundColor: "#fff",
           padding: "8px 16px",
           height: "fit-content",
+         
         }}
         onClick={toggleAccordion}
       >
@@ -45,9 +46,9 @@ const FaqItem: React.FC<Props> = ({ question, answer }) => {
           >
             <Typography
               style={{
-                fontSize: "18px",
+                fontSize: "20px",
                 color: "#10217D",
-                marginLeft: "8px",
+
                 fontWeight: "bold",
               }}
             >
@@ -56,9 +57,9 @@ const FaqItem: React.FC<Props> = ({ question, answer }) => {
             <div>
               {" "}
               {isOpen ? (
-                <MinusOutlined style={{ color: "#2AA7FF" }} />
+                <MinusOutlined style={{ color: "#2AA7FF", fontSize: "24px" }} />
               ) : (
-                <PlusOutlined style={{ color: "#2AA7FF" }} />
+                <PlusOutlined style={{ color: "#2AA7FF", fontSize: "24px" }} />
               )}
             </div>
           </div>
@@ -73,10 +74,11 @@ const FaqItem: React.FC<Props> = ({ question, answer }) => {
           >
             <Typography
               style={{
-                fontSize: "16px",
-                lineHeight: "1.5",
+                fontSize: "18px",
+
                 textAlign: "justify",
                 whiteSpace: "pre-line",
+                fontWeight: "500",
               }}
             >
               {answer}

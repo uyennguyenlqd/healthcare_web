@@ -48,29 +48,6 @@ const DoctorOverviewSection: React.FC<DoctorOverviewSectionProps> = ({
         >
           Book an Appointment
         </Button>
-        {/* <Button
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#17C256",
-              color: "#fff",
-              fontWeight: 500,
-              fontSize: "18px",
-              padding: "0px 20px",
-              borderRadius: "8px",
-              border: "1px solid #17C256",
-              minWidth: 144,
-              height: "55px",
-              letterSpacing: "1px",
-              width: "50%",
-            }}
-            onClick={() => {
-              console.log("button");
-            }}
-          >
-            Chat Now
-          </Button> */}
       </div>
     </div>
   );

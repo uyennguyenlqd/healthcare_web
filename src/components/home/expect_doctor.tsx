@@ -1,13 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { StarFilled } from "@ant-design/icons";
+import Link from "next/link";
 import { Flex } from "antd";
 import Typography from "antd/es/typography/Typography";
 
 import { DoctorApi } from "@/app/api/doctor";
 import { DoctorModel } from "@/interfaces/models/doctors";
-import Link from "next/link";
 const Doctor: React.FC = () => {
   const [doctors, setDoctors] = useState<DoctorModel[]>([]);
   const [loading, setLoading] = useState(true);
@@ -27,8 +26,8 @@ const Doctor: React.FC = () => {
     fetchDoctors();
   }, []);
   return (
-    <div style={{ backgroundColor: "#F8F8F8	", padding: "24px 96px" }}>
-      <h3 style={{ color: "#10217D", fontSize: "32px" }}>Best Doctor</h3>
+    <div style={{ backgroundColor: "#F8F8F8	", padding: "24px 96px 0px 96px" }}>
+      <h3 style={{ color: "#10217D", fontSize: "36px" }}>Best Therapist</h3>
       {/* TO DO ADD Carousel */}
       <Flex
         style={{
@@ -46,21 +45,22 @@ const Doctor: React.FC = () => {
               key={idx}
               style={{
                 flexDirection: "column",
-                border: "solid 0.5px rgba(152, 162, 179, 0.4)",
-                boxShadow: "0 1px 2px 0 rgba(0,0,0,0.05)",
-                borderRadius: "8px",
-                padding: "10px",
+                border: "solid 1px rgba(152, 162, 179, 0.4)",
+                boxShadow: "2px 1px 2px 1px rgba(0,0,0,0.05)",
+                borderRadius: "12px",
+                padding: "16px 8px",
               }}
             >
               <Image
                 src={doctor.avatar || "/icons/doctor_img.png"}
                 alt="doctor"
-                width={250}
-                height={250}
+                width={300}
+                height={300}
                 style={{
                   position: "relative",
                   objectFit: "contain",
                   objectPosition: "center bottom",
+                  
                 }}
               />
 
@@ -69,54 +69,24 @@ const Doctor: React.FC = () => {
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
-                  marginTop: "10px",
+                  marginTop: "32px",
+                  gap: "8px",
                 }}
               >
-                <div style={{ display: "flex", gap: "16px" }}>
-                  <Typography
-                    style={{
-                      fontWeight: "bold",
-                      color: "#122853",
-                      fontSize: "16px",
-                    }}
-                  >
-                    {doctor.first_name} {doctor.last_name}
-                  </Typography>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      gap: "4px",
-                    }}
-                  >
-                    <Typography
-                      style={{
-                        fontSize: "16px",
-                        color: "#303030",
-                        textAlign: "center",
-                        letterSpacing: "0.02em",
-                      }}
-                    >
-                      {doctor.averageRating}
-                    </Typography>
-                    <StarFilled
-                      style={{ color: "	#FFD700	", fontSize: "18px" }}
-                    />
-                  </div>
-                </div>
                 <Typography
                   style={{
-                    fontSize: "14px",
-                    color: "#303030",
-                    textAlign: "center",
+                    fontWeight: "bold",
+                    color: "#122853",
+                    fontSize: "22px",
                   }}
                 >
-                  {doctor.specialty?.name_specialty}
+                  {doctor.first_name} {doctor.last_name}
                 </Typography>
+
                 <Typography
                   style={{
-                    fontSize: "14px",
-                    color: "#303030",
+                    fontSize: "18px",
+                    color: "#6C757D",
                     textAlign: "center",
                   }}
                 >

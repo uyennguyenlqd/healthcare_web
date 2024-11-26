@@ -1,17 +1,32 @@
 export const questions = [
   {
-    question: "How can I get help if I'm stuck on a challenge?",
+    question: "Can I connect with a mental health expert through the website?",
     answer:
-      "The best (and quickest) way to get help on a challenge is in our Discord server. There are thousands of other developers in there, so it's a great place to ask questions. We even have a dedicated \"help\" channel! If you haven't joined yet, you can get an invite to our Discord server here.",
+      "Yes, you can book consultations with licensed professionals for personalized support.",
   },
   {
-    question: "How do I submit my solution?",
+    question: "Is my information kept confidential on this platform?",
     answer:
-      "We'd recommend reading our complete guide to submitting solutions . If you get stuck and need help, please feel free to ask questions in our Discord server, and we'll help you submit your project.",
+      // eslint-disable-next-line max-len
+      "Yes, we prioritize privacy and use secure measures to protect your personal and medical information.",
   },
   {
-    question: "Is there an official solution I can take a look at?",
+    question: "How can I tell if I need mental health support?",
     answer:
-      "We don't provide \"official\" solutions for the challenges. This is because there is no single perfect way to complete a challenge. Instead, you're encouraged to review other people's code in the community. You can learn so much by seeing how other people have approached the same challenges and giving them feedback.",
+      // eslint-disable-next-line max-len
+      "If you’re facing ongoing stress, sadness, or anxiety, consider taking a self-assessment or speaking with a professional for guidance.",
+  },
+  {
+    question: "Are the resources here suitable for all ages?",
+    answer:
+      // eslint-disable-next-line max-len
+      "Yes, we offer tools and resources tailored to various age groups, ensuring accessibility and safety for everyone.",
+  },
+  {
+    question:
+      "What services does this website offer for mental health support?",
+    answer:
+      // eslint-disable-next-line max-len
+      "We provide mood tracking, self-assessments, counseling chatbots, relaxation guides, and options to consult with mental health experts.",
   },
 ];

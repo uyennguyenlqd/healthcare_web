@@ -8,7 +8,6 @@ import styled from "styled-components";
 
 import HeaderTitle from "./header_title";
 import { profileItems } from "./menuItems";
-import { logOut } from "@/hooks/auth";
 
 //TODO: AUTO REFRESH PAGE WHEN LOGIN, SIGNOUT WITHOUT PRESSING F5
 
@@ -18,9 +17,14 @@ export const items: MenuProps["items"] = [
     key: "home",
   },
   {
+    label: "Help & Support",
+    key: "help",
+  },
+  {
     label: "Online Counselling",
     key: "counselling",
   },
+
   {
     label: "Medical News",
     key: "news",
@@ -30,7 +34,17 @@ export const items: MenuProps["items"] = [
     key: "contact",
   },
 ];
-let Header: React.FC = () => {
+const StyledMenu = styled(Menu)`
+  .ant-menu-item {
+    font-size: 16px !important;
+    font-weight: 400;
+  }
+
+  .ant-menu-item:hover {
+    color: #1677ff !important;
+  }
+`;
+const Header: React.FC = () => {
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -66,6 +80,9 @@ let Header: React.FC = () => {
       case "news":
         router.push("/user/news");
         break;
+      case "help":
+        router.push("/user"); //TODO
+        break;
       case "contact":
         router.push("/user/contact");
         break;
@@ -97,21 +114,21 @@ let Header: React.FC = () => {
       style={{
         alignItems: "center",
         margin: 0,
-        padding: "8px 96px",
+        padding: "16px 96px",
         maxWidth: "100%",
         backgroundColor: "#fff",
       }}
     >
       <HeaderTitle />
-      <Menu
+      <StyledMenu
         onClick={onClick}
         selectedKeys={[current]}
         items={items}
         mode="horizontal"
         style={{
-          width: "470px",
+          // width: "800px",
           display: "flex",
-
+          gap: "8px",
           borderBottom: "none",
           marginLeft: "20px",
         }}
@@ -157,12 +174,12 @@ let Header: React.FC = () => {
               backgroundColor: changeColorButton ? "#fff" : "#1b61bd",
               color: changeColorButton ? "#1b61bd" : "#fff",
               fontWeight: 500,
-              fontSize: "16px",
-              padding: "0px 20px",
+              fontSize: "20px",
+              padding: "0px 16px",
               borderRadius: "8px",
               border: "1px solid #1677FF",
-              minWidth: 144,
-              height: "45px",
+              minWidth: 200,
+              height: "56px",
               letterSpacing: "1px",
             }}
             onClick={() => {
@@ -177,14 +194,5 @@ let Header: React.FC = () => {
     </Flex>
   );
 };
-
-//TO DO => can't css
-Header = styled(Header)`
-  .ant-menu-item {
-    &.ant-menu-item-selected {
-      background-color: red !important;
-    }
-  }
-`;
 
 export default Header;

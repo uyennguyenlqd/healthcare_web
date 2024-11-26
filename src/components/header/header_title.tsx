@@ -6,7 +6,7 @@ const HeaderTitle: React.FC = () => {
     <Flex>
       <Title
         style={{
-          fontSize: 26,
+          fontSize: 28,
           fontWeight: "bold",
           margin: 0,
           color: "#1677FF",
@@ -19,7 +19,7 @@ const HeaderTitle: React.FC = () => {
 
       <Title
         style={{
-          fontSize: 26,
+          fontSize: 28,
           fontWeight: "bold",
           margin: 0,
           color: "#10217D",

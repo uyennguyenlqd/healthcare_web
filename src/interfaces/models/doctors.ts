@@ -44,9 +44,22 @@ export interface DoctorModel {
   phone?: string;
   roles: string;
   bio?: string;
+  meet_link?: string;
+  ticketPrice: number;
   timeslots?: {
     start: string;
     end: string;
     _id?: string;
   }[];
+}
+export interface TimeSlotModel {
+  start: string;
+  end: string;
+  isBooked: boolean;
+}
+
+export interface ScheduleModel {
+  doctorId: string;
+  date: string;
+  timeSlots: TimeSlotModel[];
 }

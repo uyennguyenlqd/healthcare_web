@@ -4,7 +4,7 @@ import { CalendarOutlined } from "@ant-design/icons";
 import { Typography } from "antd";
 
 import "./postItem.css";
-export default function PostItem({
+export default function PostItem_HomePage({
   large,
   item,
 }: {
@@ -22,7 +22,7 @@ export default function PostItem({
 }) {
   return (
     <div className={`post-entry-1 ${large ? "lg" : undefined}`}>
-      <Link href={`news/${item._id}`}>
+      <Link href={`user/news/${item._id}`}>
         <img
           src={item.img}
           alt=""
@@ -45,7 +45,7 @@ export default function PostItem({
         </div>
 
         <h2>
-          <Link href={`news/${item._id}`}>{item.title}</Link>
+          <Link href={`user/news/${item._id}`}>{item.title}</Link>
         </h2>
         <div className="author" style={{ display: "flex", marginTop: "48px" }}>
           <div className="photo">

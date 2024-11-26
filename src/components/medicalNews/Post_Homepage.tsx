@@ -2,12 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 
-import PostItem from "./PostItem";
+import PostItem_HomePage from "./PostItem_HomePage";
 import Preloader from "./Preloader";
 
 import { ENV } from "@/constants/env";
 
-export default function PostItems() {
+export default function PostHomePage() {
   const [items, setItems] = useState<[]>([]);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export default function PostItems() {
                   author: string;
                 }) => (
                   <div key={item._id}>
-                    <PostItem large={false} item={item} />
+                    <PostItem_HomePage large={false} item={item} />
                   </div>
                 )
               )}

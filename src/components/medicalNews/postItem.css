@@ -2,23 +2,25 @@
 # Post Item one
 --------------------------------------------------------------*/
 .post-entry-1 {
-  margin-bottom: 30px;
+  background-color: #f8f8f8;
+  border-radius: 16px;
+  height: 100%;
 }
 
 .post-entry-1 img {
-  margin-bottom: 30px;
+  margin-bottom: 16px;
 }
 
 .post-entry-1 h2 {
-  margin-bottom: 20px;
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 22px;
   line-height: 1.2;
-  font-weight: 500;
+  font-weight: 600;
+  margin: 8px;
 }
 
 .post-entry-1 h2 a {
   color: var(--color-black);
+  text-decoration: none;
 }
 
 .post-entry-1.lg h2 {
@@ -27,13 +29,17 @@
 }
 
 .post-meta {
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.07rem;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 500;
   font-family: var(--font-secondary);
   color: rgba(var(--color-black-rgb), 0.4);
-  margin-bottom: 10px;
+
+  background-color: #d1e8ff;
+  width: fit-content;
+  padding: 8px;
+  border-radius: 8px;
 }
 
 .author .photo {

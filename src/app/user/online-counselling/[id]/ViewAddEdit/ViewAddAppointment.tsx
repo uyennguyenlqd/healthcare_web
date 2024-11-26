@@ -26,6 +26,7 @@ const OnlineCounsellingTabs: React.FC<OnlCounsellingProps> = ({ id }) => {
   const [currentTab, setCurrentTab] = useState<string>("1");
   const [notes, setNotes] = useState<string>("");
   const [uploadUrl, setUploadUrl] = useState("");
+  const [ticketPrice, setTicketPrice] = useState<number>(0);
   const router = useRouter();
   const { data: session } = useSession();
   useEffect(() => {
@@ -40,6 +41,7 @@ const OnlineCounsellingTabs: React.FC<OnlCounsellingProps> = ({ id }) => {
         const response = await DoctorApi.getDoctor(id);
         if (response && response.data && response.data.data) {
           setDoctor(response.data.data);
+          setTicketPrice(response.data.data.ticketPrice || 5);
         }
       } catch (error) {
         console.error("Error fetching doctor:", error);
@@ -54,7 +56,10 @@ const OnlineCounsellingTabs: React.FC<OnlCounsellingProps> = ({ id }) => {
     return null;
   }
   const handleSelectTimeAndDate = (timeslot: string, date: string) => {
-    setSelectedTimeslot(timeslot);
+    //setSelectedTimeslot(timeslot);
+    if (selectedDate !== date) {
+      setSelectedTimeslot("");
+    }
     setSelectedDate(date);
     setCurrentTab("2");
   };
@@ -66,7 +71,8 @@ const OnlineCounsellingTabs: React.FC<OnlCounsellingProps> = ({ id }) => {
         <AddOnlineCounsellingTab
           doctor={doctor}
           onSelectTime={setSelectedTimeslot}
-          onSelectDate={setSelectedDate}
+          //onSelectDate={setSelectedDate}
+          onSelectDate={(date) => handleSelectTimeAndDate("", date)}
         />
       ),
     },
@@ -100,6 +106,7 @@ const OnlineCounsellingTabs: React.FC<OnlCounsellingProps> = ({ id }) => {
         selectedDate={selectedDate}
         notes={notes}
         url={uploadUrl}
+        ticketPrice={ticketPrice}
       />
     </div>
   );

@@ -30,6 +30,7 @@ const MyBooking: React.FC = () => {
 
     fetchAppointments();
   }, []);
+
   return (
     <div style={{ display: "flex", gap: "24px", flexDirection: "column" }}>
       {bookings.map((booking, idx) => (
