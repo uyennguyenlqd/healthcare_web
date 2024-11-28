@@ -36,6 +36,7 @@ export default function PostHomePage() {
         <h3 style={{ color: "#10217D", fontSize: "36px" }}>
           Mental Health News
         </h3>
+
         {items && items.length > 0 ? (
           <div
             style={{

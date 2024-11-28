@@ -44,9 +44,19 @@ export default function PostItem_HomePage({
           <span>{new Date(item.date).toLocaleDateString("en-US")}</span>
         </div>
 
-        <h2>
-          <Link href={`user/news/${item._id}`}>{item.title}</Link>
+        <h2
+          style={{
+            fontSize: "24px",
+            fontWeight: "600",
+            marginTop: "0.75rem",
+            marginBottom: "0.75rem",
+          }}
+        >
+          <Link href={`user/news/${item._id}`}>
+            {item.title.substring(0, 100)}
+          </Link>
         </h2>
+
         <div className="author" style={{ display: "flex", marginTop: "48px" }}>
           <div className="photo">
             <img src={item.avatar} alt="" className="img-fluid" />

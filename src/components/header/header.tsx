@@ -81,7 +81,7 @@ const Header: React.FC = () => {
         router.push("/user/news");
         break;
       case "help":
-        router.push("/user"); //TODO
+        router.push("/user/help"); //TODO
         break;
       case "contact":
         router.push("/user/contact");

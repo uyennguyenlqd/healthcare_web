@@ -1,7 +1,8 @@
 "use client";
-import { Button, Typography, Spin, Result } from "antd";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Button, Result, Spin } from "antd";
+
 import { ENV } from "@/constants/env";
 
 // Define an interface for payment status
