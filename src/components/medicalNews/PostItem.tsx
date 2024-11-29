@@ -59,6 +59,7 @@ export default function PostItem({
               height: "72px",
             }}
           >
+            
             {item.brief.substring(0, 110)}...
           </p>
           <div className="author" style={{ display: "flex" }}>

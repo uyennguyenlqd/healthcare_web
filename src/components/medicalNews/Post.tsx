@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -12,13 +12,14 @@ import { Pagination } from "antd";
 import { ENV } from "@/constants/env";
 
 export default function PostItems() {
-  //const [items, setItems] = useState<[]>([]);
-  const [items, setItems] = useState<any[]>([]);
+  const [allItems, setAllItems] = useState<any[]>([]); // Full list of posts
+  const [items, setItems] = useState<any[]>([]); // Filtered list
   const [category, setCategory] = useState<string>("");
   const [search, setSearch] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 20; // Số lượng bài viết trên mỗi trang
+  const itemsPerPage = 20;
 
+  // Fetch all posts initially
   useEffect(() => {
     const fetchAllPosts = async () => {
       try {
@@ -31,82 +32,74 @@ export default function PostItems() {
           throw new Error("Failed to fetch posts");
         }
         const data = await response.json();
-        setItems(data.data);
+  
+        setAllItems(data.data); // Save full list
+        setItems(data.data); // Set initial display
       } catch (error: any) {
         console.error("Error fetching posts:", error.message);
       }
     };
-
+  
     fetchAllPosts();
   }, []);
+  
+  const handleSearch = async (searchText: string) => {
+    setSearch(searchText);
+  
+    try {
+      const response = await fetch("http://localhost:8000/api/title-search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: searchText }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch search results");
+      }
+  
+      const data = await response.json();
+      const matchingTitles = data.titles || [];
+  
+      console.log("Matching titles from API:", matchingTitles);
+  
+      // Use `allItems` for filtering instead of `items`
+      console.log("Items available for filtering:", allItems.map((item) => item.title));
+  
+      const filteredResults = allItems.filter((item) =>
+        matchingTitles.some(
+          (title) =>
+            title.trim().toLowerCase() === item.title.trim().toLowerCase()
+        )
+      );
+  
+      console.log("Filtered results:", filteredResults);
+  
+      if (filteredResults.length === 0) {
+        console.warn("No matches found. Keeping existing items.");
+        setItems([]); // Reset to all items if no matches
+      } else {
+        setItems(filteredResults);
+      }
+    } catch (error: any) {
+      console.error("Error fetching search results:", error.message);
+    }
+  };
 
   const filteredItems = items.filter((item) => {
     const matchesCategory = category ? item.category === category : true;
-    const matchesSearch =
-      item.title.toLowerCase().includes(search.toLowerCase()) ||
-      // item.brief.toLowerCase().includes(search.toLowerCase()) ||
-      item.category.toLowerCase().includes(search.toLowerCase());
-    return matchesCategory && matchesSearch;
+    return matchesCategory;
   });
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedItems = filteredItems.slice(startIndex, endIndex);
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  // return (
-  //   <section id="posts" className="posts">
-  //     <div className="container">
-  //       <h3
-  //         style={{
-  //           fontSize: "24px",
-  //           marginBottom: "32px",
-  //           fontWeight: "bold",
-  //         }}
-  //       >
-  //         Mental Health News
-  //       </h3>
-  //       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-12 mb-5">
-  //         {/* search bar */}
-  //         <SearchBar onSearch={setSearch} />
-
-  //         {/* category filtering */}
-  //         <CategoryFilter onCategoryChange={setCategory} />
-  //       </div>
-  //       {items && items.length > 0 ? (
-  //         <div
-  //           style={{
-  //             display: "grid",
-  //             gridTemplateColumns: "repeat(4, 1fr)",
-  //             gap: "16px",
-  //           }}
-  //         >
-  //           {items
-  //             .slice(0, 16)
-  //             .map(
-  //               (item: {
-  //                 _id: string;
-  //                 img: string;
-  //                 category: string;
-  //                 date: string;
-  //                 title: string;
-  //                 brief: string;
-  //                 avatar: string;
-  //                 author: string;
-  //               }) => (
-  //                 <div key={item._id}>
-  //                   <PostItem large={false} item={item} />
-  //                 </div>
-  //               )
-  //             )}
-  //         </div>
-  //       ) : (
-  //         <Preloader />
-  //       )}
-  //     </div>
-  //   </section>
-  // );
   return (
     <section id="posts" className="posts">
       <div className="container">
@@ -124,48 +117,16 @@ export default function PostItems() {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-
             gap: "16px",
-
             marginBottom: "48px",
           }}
         >
           {/* Search Bar */}
-          <SearchBar onSearch={setSearch} />
+          <SearchBar onSearch={handleSearch} />
 
           {/* Category Filtering */}
           <CategoryFilter onCategoryChange={setCategory} />
         </div>
-        {/* {filteredItems.length > 0 ? (
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "16px",
-            }}
-          >
-            {filteredItems
-              .slice(0, 16)
-              .map(
-                (item: {
-                  _id: string;
-                  img: string;
-                  category: string;
-                  date: string;
-                  title: string;
-                  brief: string;
-                  avatar: string;
-                  author: string;
-                }) => (
-                  <div key={item._id}>
-                    <PostItem large={false} item={item} />
-                  </div>
-                )
-              )}
-          </div>
-        ) : (
-          <Preloader />
-        )} */}
         {paginatedItems.length > 0 ? (
           <>
             <div
@@ -199,3 +160,4 @@ export default function PostItems() {
     </section>
   );
 }
+
