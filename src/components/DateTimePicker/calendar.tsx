@@ -37,7 +37,7 @@ const CalendarCard: React.FC<DoctorCardProps> = ({
     const fetchSchedule = async () => {
       try {
         const response = await axios.get(
-          `${ENV}/api/v1/schedule/by-date?doctorId=${doctor._id}&date=${selectedValue.format("YYYY-MM-DD")}`
+          `${ENV}/api/v1/schedule/by-date?doctorId=${doctor._id}&date=${selectedValue.format("YYYY-MM-DD")}`,
         );
         setDoctorTimeslots(response.data.schedule.timeSlots || []);
       } catch (error) {
@@ -47,8 +47,7 @@ const CalendarCard: React.FC<DoctorCardProps> = ({
     };
 
     fetchSchedule();
-  }, [selectedValue, doctor._id]); // Gọi lại khi ngày hoặc doctorId thay đổi
-
+  }, [selectedValue, doctor._id]); 
   // const doctortimeslots = doctor?.timeslots || [];
   const onSelect = (newValue: Dayjs) => {
     setValue(newValue);

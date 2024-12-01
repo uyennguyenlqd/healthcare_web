@@ -100,7 +100,15 @@ export default function PostItem({
                   />
                 </div>
 
-                <p>
+                <p
+                  style={{
+                    fontSize: "18px",
+                    lineHeight: "1.2",
+                    fontFamily: "Georgia, serif",
+                    color: "#333",
+                    marginBottom: "16px",
+                  }}
+                >
                   Sunt reprehenderit, hic vel optio odit est dolore, distinctio
                   iure itaque enim pariatur ducimus. Rerum soluta, perspiciatis
                   voluptatum cupiditate praesentium repellendus quas expedita
@@ -110,7 +118,15 @@ export default function PostItem({
                   repellendus eos necessitatibus eligendi corporis cum? Eaque
                   harum, eligendi itaque numquam aliquam soluta.
                 </p>
-                <p>
+                <p
+                  style={{
+                    fontSize: "18px",
+                    lineHeight: "1.2",
+                    fontFamily: "Georgia, serif",
+                    color: "#333",
+                    marginBottom: "16px",
+                  }}
+                >
                   Explicabo perspiciatis, laborum provident voluptates illum in
                   nulla consectetur atque quaerat excepturi quisquam, veniam
                   velit ex pariatur quos consequuntur? Excepturi reiciendis

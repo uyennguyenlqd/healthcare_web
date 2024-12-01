@@ -18,6 +18,13 @@ export async function POST(
   const stream = openai.beta.threads.runs.stream(threadId, {
     assistant_id: assistantId,
   });
+  // const threadMessages = await openai.beta.threads.messages.list(threadId);
+  // // Log danh sách messages
+  // console.log(
+  //   "Thread Messages for threadId:",
+  //   threadId,
+  //   JSON.stringify(threadMessages, null, 2)
+  // );
 
   return new Response(stream.toReadableStream());
 }
