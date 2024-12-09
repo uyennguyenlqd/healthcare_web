@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
-import { MessageType } from "antd/es/message/interface";
+import { SendHorizontal } from "lucide-react";
 import { AssistantStream } from "openai/lib/AssistantStream";
 // @ts-expect-error - no types for this yet
 import { AssistantStreamEvent } from "openai/resources/beta/assistants/assistants";
@@ -13,18 +13,35 @@ import styles from "./chat.module.css";
 type MessageProps = {
   role: "user" | "assistant" | "code";
   text: string;
+  avatar?: string;
 };
 
+// const UserMessage = ({ text }: { text: string }) => {
+//   return <div className={styles.userMessage}>{text}</div>;
+// };
+
+// const AssistantMessage = ({ text }: { text: string }) => {
+//   return (
+//     <div className={styles.assistantMessage}>
+//       <Markdown>{text}</Markdown>
+//     </div>
+//   );
+// };
+
+// const CodeMessage = ({ text }: { text: string }) => {
+//   return (
+//     <div className={styles.codeMessage}>
+//       {text.split("\n").map((line, index) => (
+//         <div key={index}>
+//           <span>{`${index + 1}. `}</span>
+//           {line}
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
 const UserMessage = ({ text }: { text: string }) => {
   return <div className={styles.userMessage}>{text}</div>;
-};
-
-const AssistantMessage = ({ text }: { text: string }) => {
-  return (
-    <div className={styles.assistantMessage}>
-      <Markdown>{text}</Markdown>
-    </div>
-  );
 };
 
 const CodeMessage = ({ text }: { text: string }) => {
@@ -39,13 +56,39 @@ const CodeMessage = ({ text }: { text: string }) => {
     </div>
   );
 };
+const AssistantMessage = ({
+  text,
+  avatar,
+}: {
+  text: string;
+  avatar: string;
+}) => {
+  return (
+    <div style={{ display: "flex", gap: "4px" }}>
+      {" "}
+      <img
+        src={avatar}
+        alt="Assistant Avatar"
+        style={{
+          width: "64px",
+          height: "64px",
+          borderRadius: "50%",
+          marginTop: "12px",
+        }}
+      />
+      <div className={styles.assistantMessage}>
+        <Markdown>{text}</Markdown>
+      </div>
+    </div>
+  );
+};
 
-const Message = ({ role, text }: MessageProps) => {
+const Message = ({ role, text, avatar }: MessageProps) => {
   switch (role) {
     case "user":
       return <UserMessage text={text} />;
     case "assistant":
-      return <AssistantMessage text={text} />;
+      return <AssistantMessage text={text} avatar={"/icons/health_logo.png"} />;
     case "code":
       return <CodeMessage text={text} />;
     default:
@@ -65,17 +108,28 @@ const Chat = ({
   const [userInput, setUserInput] = useState("");
   // const [messages, setMessages] = useState([]);
   const [messages, setMessages] = useState<MessageProps[]>([]); // <-- Updated here
+  const [displayResult, setDisplayResult] = useState(false);
 
   const [inputDisabled, setInputDisabled] = useState(false);
   const [threadId, setThreadId] = useState("");
 
   // automatically scroll to bottom of chat
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  // const scrollToBottom = () => {
+  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  // };
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Kiểm tra nếu có messagesEndRef và nó có element
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }
   };
+
   useEffect(() => {
-    scrollToBottom();
+    //scrollToBottom();
   }, [messages]);
 
   // create a new threadID when chat component created
@@ -90,6 +144,7 @@ const Chat = ({
     createThread();
   }, []);
 
+  // Gửi tin nhắn
   const sendMessage = async (text: string) => {
     const response = await fetch(
       `/api/assistants/threads/${threadId}/messages`,
@@ -142,9 +197,10 @@ const Chat = ({
       ...prevMessages,
       { role: "user", text: userInput },
     ]);
+    setDisplayResult(true); // Đảm bảo cập nhật giá trị displayResult
     setUserInput("");
     setInputDisabled(true);
-    scrollToBottom();
+    //scrollToBottom();
   };
 
   /* Stream Event Handlers */
@@ -298,33 +354,169 @@ const Chat = ({
       return [...prevMessages.slice(0, -1), updatedLastMessage];
     });
   };
-
+  const questions = [
+    "How can I manage my stress and anxiety effectively?",
+    "How can I improve my mental health and well-being?",
+    "What are some strategies for coping with anxiety?",
+    "How can I support someone who is struggling with depression?",
+  ];
+  const QuestionButton: React.FC<{ text: string; onClick: () => void }> = ({
+    text,
+    onClick,
+  }) => {
+    return (
+      <button
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          height: "12rem", // h-48
+          padding: "1rem", // p-4
+          border: "none",
+          borderRadius: "1rem", // rounded-xl
+          position: "relative",
+          cursor: "pointer",
+          transition: "background-color 0.3s",
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          fontSize: "18px",
+        }}
+        onClick={onClick}
+      >
+        <p>{text}</p>
+      </button>
+    );
+  };
   return (
-    <div className={styles.chatContainer}>
-      <div className={styles.messages}>
+    <div
+      style={{
+        maxWidth: "990px",
+        display: "flex",
+        flexDirection: `column${displayResult ? "-reverse" : ""}`,
+        height: "100%",
+        width: "100%",
+        margin: "auto",
+      }}
+    >
+      {!displayResult ? (
+        <>
+          <div
+            style={{
+              marginTop: "24px",
+              marginBottom: "24px",
+              fontSize: "3rem",
+              fontWeight: 500,
+              padding: "0 20px",
+            }}
+          >
+            <p style={{ marginBottom: "36px" }}>
+              <span
+                style={{
+                  fontSize: "48px",
+                  fontWeight: "bold",
+                  color: "transparent",
+                  backgroundClip: "text",
+                  backgroundImage:
+                    "linear-gradient(to right, #1677FF, #f472b6)",
+                }}
+              >
+                Welcome to UTE Mental Health
+              </span>
+            </p>
+            <p
+              style={{
+                marginTop: "24px",
+                marginBottom: "36px",
+              }}
+            >
+              How can I help you today?
+            </p>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "1.25rem",
+              padding: "1.25rem",
+              height: "100vh",
+            }}
+          >
+            {questions.map((question, index) => (
+              <QuestionButton
+                key={index}
+                text={question}
+                onClick={() => setUserInput(question)}
+              />
+            ))}
+          </div>
+        </>
+      ) : (
+        <div className={styles.messages}>
+          {messages.map((msg, index) => (
+            <Message key={index} role={msg.role} text={msg.text} />
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
+      )}
+      {/* <div className={styles.messages}>
         {messages.map((msg, index) => (
           <Message key={index} role={msg.role} text={msg.text} />
         ))}
         <div ref={messagesEndRef} />
-      </div>
+      </div> */}
       <form
         onSubmit={handleSubmit}
         className={`${styles.inputForm} ${styles.clearfix}`}
       >
-        <input
-          type="text"
-          className={styles.input}
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          placeholder="Enter your question"
-        />
-        <button
-          type="submit"
-          className={styles.button}
-          disabled={inputDisabled}
-        >
-          Send
-        </button>
+        <div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "1.25rem",
+              backgroundColor: "#f3f4f6",
+              padding: "0.625rem 1.25rem",
+              borderRadius: "45px",
+              width: "100%",
+            }}
+          >
+            <input
+              type="text"
+              // className={styles.input}
+              style={{
+                flex: 1,
+                backgroundColor: "transparent",
+                border: "none",
+                outline: "none",
+                padding: "8px",
+                fontSize: "16px",
+                color: "#6B7280",
+              }}
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              placeholder="Enter your question"
+            />
+            <button
+              type="submit"
+              disabled={inputDisabled}
+              style={{ border: "none" }}
+            >
+              <SendHorizontal type="submit" size={24} />
+            </button>
+          </div>
+          <p
+            style={{
+              color: "#9ca3af",
+              fontSize: "15px",
+              padding: "0.5rem",
+              marginLeft: "4px",
+            }}
+          >
+            UTE Health may show inaccurate information, including about
+            individuals, so please double-check its responses. Your privacy is
+            important to us.
+          </p>
+        </div>
       </form>
     </div>
   );

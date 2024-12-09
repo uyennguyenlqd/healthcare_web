@@ -37,7 +37,7 @@ const CalendarCard: React.FC<DoctorCardProps> = ({
     const fetchSchedule = async () => {
       try {
         const response = await axios.get(
-          `${ENV}/api/v1/schedule/by-date?doctorId=${doctor._id}&date=${selectedValue.format("YYYY-MM-DD")}`,
+          `${ENV}/api/v1/schedule/by-date?doctorId=${doctor._id}&date=${selectedValue.format("YYYY-MM-DD")}`
         );
         setDoctorTimeslots(response.data.schedule.timeSlots || []);
       } catch (error) {
@@ -47,7 +47,7 @@ const CalendarCard: React.FC<DoctorCardProps> = ({
     };
 
     fetchSchedule();
-  }, [selectedValue, doctor._id]); 
+  }, [selectedValue, doctor._id]);
   // const doctortimeslots = doctor?.timeslots || [];
   const onSelect = (newValue: Dayjs) => {
     setValue(newValue);
@@ -59,16 +59,34 @@ const CalendarCard: React.FC<DoctorCardProps> = ({
     setValue(newValue);
   };
 
-  const onSelectTimeSlot = (timeslot: string) => {
-    setSelectedTimeslot(timeslot);
+  // const onSelectTimeSlot = (timeslot: string) => {
+  //   setSelectedTimeslot(timeslot);
 
+  //   onSelectTime(timeslot);
+  // };
+  const onSelectTimeSlot = (timeslot: string) => {
+    const [startTimeStr, endTimeStr] = timeslot.split(" - ");
+    const startTime = dayjs(
+      `${selectedValue.format("YYYY-MM-DD")} ${startTimeStr}`
+    );
+
+    // So sánh với giờ hiện tại
+    const now = dayjs();
+    if (startTime.isBefore(now)) {
+      // Nếu giờ bắt đầu của timeslot trước giờ hiện tại, không cho phép chọn
+      return;
+    }
+
+    setSelectedTimeslot(timeslot);
     onSelectTime(timeslot);
   };
+
   const disabledDate = (current: Dayjs) => {
     const today = dayjs().startOf("day");
     const sevenDaysFromNow = today.clone().add(7, "days");
     return current < today || current > sevenDaysFromNow;
   };
+
   return (
     <div
       style={{
@@ -118,7 +136,8 @@ const CalendarCard: React.FC<DoctorCardProps> = ({
             gap: "20px",
           }}
         >
-          {doctorTimeslots.map((timeslot, idx) => (
+          {/* {doctorTimeslots.map((timeslot, idx) => (
+            
             <Button
               key={idx}
               style={{
@@ -146,7 +165,43 @@ const CalendarCard: React.FC<DoctorCardProps> = ({
                 {`${timeslot.start} - ${timeslot.end}`}
               </Typography>
             </Button>
-          ))}
+          ))} */}
+          {doctorTimeslots.map((timeslot, idx) => {
+            const startTime = dayjs(
+              `${selectedValue.format("YYYY-MM-DD")} ${timeslot.start}`
+            );
+            const isPast = startTime.isBefore(dayjs());
+
+            return (
+              <Button
+                key={idx}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  borderRadius: "12px",
+                  padding: "10px 0",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  height: "fit-content",
+                }}
+                onClick={() =>
+                  !isPast &&
+                  !timeslot.isBooked &&
+                  onSelectTimeSlot(`${timeslot.start} - ${timeslot.end}`)
+                }
+                disabled={isPast || timeslot.isBooked}
+              >
+                <Typography
+                  style={{
+                    color: "#122853",
+                    fontSize: "16px",
+                  }}
+                >
+                  {`${timeslot.start} - ${timeslot.end}`}
+                </Typography>
+              </Button>
+            );
+          })}
         </div>
 
         <Button

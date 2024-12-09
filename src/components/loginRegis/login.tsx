@@ -49,7 +49,7 @@ const Login: React.FC = () => {
           window.location.href = "/user";
           // router.push("/user");
         } else if (session?.user.role === "doctor") {
-          router.push("/doctor");
+          router.push("/doctor/dashboard");
         }
       }
     } catch (error) {

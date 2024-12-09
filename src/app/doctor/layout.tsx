@@ -3,8 +3,8 @@
 import { FC } from "react";
 import { Layout } from "antd";
 
-import SiderContent from "@/components/doctor/Sider";
 import DashboardHeader from "@/components/doctor/dashboardHeader";
+import SiderContent from "@/components/doctor/Sider";
 // eslint-disable-next-line max-len
 
 const { Content, Sider } = Layout;

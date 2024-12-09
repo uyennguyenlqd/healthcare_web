@@ -78,7 +78,7 @@ const Hero: React.FC = () => {
             letterSpacing: "0.5px",
           }}
           onClick={() => {
-            router.push("/user/contact");
+            router.push("/user/help");
           }}
         >
           LET US HELP

@@ -13,7 +13,7 @@ const MyBooking: React.FC = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await fetch(`${ENV}/api/v1/users/appointments`, {
+        const response = await fetch(`${ENV}/api/v1/users/bookings`, {
           headers: {
             Authorization: `Bearer ${session?.user.token}`,
           },

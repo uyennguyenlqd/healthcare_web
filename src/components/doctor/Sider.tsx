@@ -2,14 +2,16 @@
 
 import React, { FC } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 import {
   DashboardOutlined,
   DollarOutlined,
   FileDoneOutlined,
   FileProtectOutlined,
-  FormOutlined,
+  ScheduleOutlined,
   SettingOutlined,
   TeamOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Button, Menu, MenuProps } from "antd";
 
@@ -25,7 +27,14 @@ const SiderContent: FC = () => {
       label: "DashBoard",
       icon: <DashboardOutlined style={{ fontSize: "20px" }} />,
       style: { color: "#06417C", fontSize: "16px", marginBottom: "12px" },
-      url: "/doctor",
+      url: "/doctor/dashboard",
+    },
+    {
+      key: "Booking",
+      label: "Booking",
+      icon: <DollarOutlined style={{ fontSize: "20px" }} />,
+      style: { color: "#06417C", fontSize: "16px", marginBottom: "12px" },
+      url: "/doctor/booking",
     },
     {
       key: "Appointment",
@@ -42,25 +51,33 @@ const SiderContent: FC = () => {
       url: "/doctor/patients",
     },
     {
+      key: "Schedule",
+      label: "Schedule",
+      icon: <ScheduleOutlined style={{ fontSize: "20px" }} />,
+      style: { color: "#06417C", fontSize: "16px", marginBottom: "12px" },
+      url: "/doctor",
+    },
+    {
       key: "Therapist's Corner",
       label: "Therapist's Corner",
       icon: <FileProtectOutlined style={{ fontSize: "20px" }} />,
       style: { color: "#06417C", fontSize: "16px", marginBottom: "12px" },
       url: "/doctor",
     },
+    // {
+    //   key: "Notes",
+    //   label: "Notes",
+    //   icon: <FormOutlined style={{ fontSize: "20px" }} />,
+    //   style: { color: "#06417C", fontSize: "16px", marginBottom: "12px" },
+    //   url: "/doctor",
+    // },
+
     {
-      key: "Notes",
-      label: "Notes",
-      icon: <FormOutlined style={{ fontSize: "20px" }} />,
+      key: "Profile",
+      label: "Profile",
+      icon: <UserOutlined style={{ fontSize: "20px" }} />,
       style: { color: "#06417C", fontSize: "16px", marginBottom: "12px" },
-      url: "/doctor",
-    },
-    {
-      key: "Billing",
-      label: "Billings",
-      icon: <DollarOutlined style={{ fontSize: "20px" }} />,
-      style: { color: "#06417C", fontSize: "16px", marginBottom: "12px" },
-      url: "/doctor",
+      url: "/doctor/profile",
     },
 
     {
@@ -111,7 +128,7 @@ const SiderContent: FC = () => {
         <Button
           type="primary"
           onClick={() => {
-            console.log("button");
+            signOut({ callbackUrl: "/" }).then(() => {});
           }}
           style={{
             width: "100%",

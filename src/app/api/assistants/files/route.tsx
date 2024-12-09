@@ -1,6 +1,7 @@
+import pdf from "pdf-parse";
+
 import { assistantId } from "@/app/assistant-config";
 import { openai } from "@/app/openai";
-
 // upload file to assistant's vector store
 export async function POST(request: { formData: () => any }) {
   const formData = await request.formData(); // process file as FormData
@@ -18,6 +19,41 @@ export async function POST(request: { formData: () => any }) {
     file_id: openaiFile.id,
   });
   return new Response();
+}
+// export async function POST(request: { formData: () => any }) {
+//   const formData = await request.formData(); // Lấy FormData từ request
+//   const file = formData.get("file"); // Lấy file PDF
+
+//   if (!file) {
+//     return new Response("No file uploaded", { status: 400 });
+//   }
+
+//   // Đọc nội dung file PDF
+//   const pdfBuffer = await file.arrayBuffer();
+//   const pdfContent = await pdf(Buffer.from(pdfBuffer)); // pdfContent.text chứa nội dung PDF
+
+//   // Upload file lên OpenAI
+//   const openaiFile = await openai.files.create({
+//     file, // Chỉ định file upload
+//     purpose: "assistants", // Loại file upload
+//   });
+
+//   // Tạo vector store và lưu metadata nội dung PDF
+//   const vectorStoreId = await getOrCreateVectorStore(); // Lấy hoặc tạo vector store
+//   await openai.beta.vectorStores.files.create(vectorStoreId, {
+//     file_id: openaiFile.id,
+//     // metadata: {
+//     //   content: pdfContent.text, // Lưu nội dung PDF vào metadata của vector store
+//     // },
+//   });
+
+  return new Response(
+    JSON.stringify({ message: "File uploaded and processed successfully" }),
+    {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    }
+  );
 }
 
 // list files in assistant's vector store
