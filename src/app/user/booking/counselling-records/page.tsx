@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { Button, Card } from "antd";
+import { Card } from "antd";
 
-import AppointmentCard from "@/components/dashboard/doctor/ui_doctor_dashboard/AppointmentCard";
+import UserAppointmentCard from "@/components/user/userAppointmentCard";
 import { ENV } from "@/constants/env";
 
-const RecentAppointment = () => {
+const RecordPage = () => {
   const [appointments, setAppointments] = useState<any[]>([]);
   const { data: session } = useSession();
   useEffect(() => {
@@ -40,14 +40,13 @@ const RecentAppointment = () => {
     >
       <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
         {appointments.map((appointment) => (
-          <AppointmentCard
+          <UserAppointmentCard
             key={appointment._id}
             appointmentId={appointment._id}
             appointmentDate={appointment.bookingDetails.appointmentDate}
             timeslot={appointment.bookingDetails.timeslot}
-            status={appointment.status}
-            first_name={appointment.userDetails[0]?.first_name}
-            last_name={appointment.userDetails[0]?.last_name}
+            first_name={appointment.doctorDetails[0]?.first_name}
+            last_name={appointment.doctorDetails[0]?.last_name}
           />
         ))}
       </div>
@@ -55,4 +54,4 @@ const RecentAppointment = () => {
   );
 };
 
-export default RecentAppointment;
+export default RecordPage;

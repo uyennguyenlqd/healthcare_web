@@ -100,6 +100,9 @@ const Header: React.FC = () => {
       case "history_booking":
         router.push("/user/booking/payment");
         break;
+      case "counselling_records":
+        router.push("/user/booking/counselling-records");
+        break;
       case "logout": {
         await signOut().then(() => {
           window.location.href = "/";

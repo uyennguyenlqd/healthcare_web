@@ -12,6 +12,9 @@ const MenuProfile: React.FC = () => {
       case "history_booking":
         router.push("/user/booking/payment");
         break;
+      case "counselling_records":
+        router.push("/user/booking/counselling-records");
+        break;
       default:
         break;
     }
@@ -21,7 +24,7 @@ const MenuProfile: React.FC = () => {
       items={profileItems}
       onClick={(e) => handleMenuClick(e.key)}
       style={{
-        maxHeight: "150px",
+        maxHeight: "200px",
         borderBottom: "none",
         borderRadius: "16px",
         marginLeft: "24px",
@@ -33,6 +36,7 @@ const MenuProfile: React.FC = () => {
     >
       <Menu.Item key="profile">My Profile</Menu.Item>
       <Menu.Item key="history_booking">My booking history</Menu.Item>
+      <Menu.Item key="counselling_records">Counselling Records</Menu.Item>
     </Menu>
   );
 };

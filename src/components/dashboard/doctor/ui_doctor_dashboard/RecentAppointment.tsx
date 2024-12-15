@@ -10,21 +10,24 @@ const RecentAppointment = () => {
     const fetchedAppointments = [
       {
         id: 1,
-        patientName: "John Doe",
+        first_name: "John", // Tên bệnh nhân
+        last_name: "Doe", // Họ bệnh nhân
         appointmentDate: "2024-12-02T10:00:00.000+07:00", // Định dạng ngày giờ cuộc hẹn
         timeslot: "10:00 AM - 10:30 AM", // Thời gian
-        status: "approved", // Trạng thái cuộc hẹn
+        status: "completed", // Trạng thái cuộc hẹn
       },
       {
         id: 2,
-        patientName: "Jane Smith",
+        first_name: "Jane", // Tên bệnh nhân
+        last_name: "Smith", // Họ bệnh nhân
         appointmentDate: "2024-12-01T14:00:00.000+07:00",
         timeslot: "2:00 PM - 2:30 PM",
         status: "pending",
       },
       {
         id: 3,
-        patientName: "Michael Brown",
+        first_name: "Michael", // Tên bệnh nhân
+        last_name: "Brown", // Họ bệnh nhân
         appointmentDate: "2024-11-30T16:30:00.000+07:00",
         timeslot: "4:30 PM - 5:00 PM",
         status: "cancelled",
@@ -63,10 +66,12 @@ const RecentAppointment = () => {
         {appointments.map((appointment) => (
           <AppointmentCard
             key={appointment.id}
+            appointmentId={appointment.id.toString()} // Truyền ID cuộc hẹn
             appointmentDate={appointment.appointmentDate}
             timeslot={appointment.timeslot}
             status={appointment.status}
-            patientName={appointment.patientName}
+            first_name={appointment.first_name} // Truyền first_name
+            last_name={appointment.last_name} // Truyền last_name
           />
         ))}
       </div>

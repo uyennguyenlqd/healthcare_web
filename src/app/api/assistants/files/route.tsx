@@ -47,14 +47,14 @@ export async function POST(request: { formData: () => any }) {
 //     // },
 //   });
 
-  return new Response(
-    JSON.stringify({ message: "File uploaded and processed successfully" }),
-    {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    }
-  );
-}
+//   return new Response(
+//     JSON.stringify({ message: "File uploaded and processed successfully" }),
+//     {
+//       status: 200,
+//       headers: { "Content-Type": "application/json" },
+//     }
+//   );
+// }
 
 // list files in assistant's vector store
 export async function GET() {

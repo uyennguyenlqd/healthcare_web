@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { ClockCircleOutlined } from "@ant-design/icons";
-import { Card, Col, Row, Tag, Typography } from "antd";
+import { Card, Col, Row, Button, Typography } from "antd";
 
 const { Title, Text } = Typography;
 
@@ -9,40 +9,28 @@ interface AppointmentProps {
   appointmentId: string; // ID cuộc hẹn
   appointmentDate: string;
   timeslot: string;
-  status: string;
   first_name: string; // Tên
   last_name: string; // Họ
 }
 
-const AppointmentCard: React.FC<AppointmentProps> = ({
+const UserAppointmentCard: React.FC<AppointmentProps> = ({
   appointmentId,
   appointmentDate,
   timeslot,
-  status,
   first_name,
   last_name,
 }) => {
   const router = useRouter();
   const formattedDate = new Date(appointmentDate).toLocaleDateString();
-  const formattedStatus =
-    {
-      completed: "Completed",
-      pending: "Pending",
-      cancelled: "Cancelled",
-    }[status] || "Unknown";
 
-  // Màu sắc cho trạng thái
-  const statusColor =
-    {
-      completed: "green",
-      pending: "orange",
-      cancelled: "red",
-    }[status] || "gray";
-
+  // Tên bệnh nhân
   const patientName = `${first_name} ${last_name}`;
+
+  // Hàm chuyển hướng tới chi tiết cuộc hẹn
   const handleClick = () => {
-    router.push(`/doctor/appointments/${appointmentId}`);
+    router.push(`/user/booking/counselling-records/${appointmentId}`);
   };
+
   return (
     <Card
       style={{
@@ -59,7 +47,7 @@ const AppointmentCard: React.FC<AppointmentProps> = ({
         </a>
       }
       extra={
-        <ClockCircleOutlined style={{ color: statusColor, fontSize: "24px" }} />
+        <ClockCircleOutlined style={{ color: "#1b61bd", fontSize: "24px" }} />
       }
     >
       <Row justify="space-between">
@@ -68,7 +56,7 @@ const AppointmentCard: React.FC<AppointmentProps> = ({
             style={{ marginTop: "8px", fontSize: "18px", fontWeight: 500 }}
             level={5}
           >
-            {patientName}{" "}
+            {patientName}
           </Title>
           <Text style={{ fontSize: "16px" }}>
             {`Appointment Date: ${formattedDate}`}
@@ -82,20 +70,19 @@ const AppointmentCard: React.FC<AppointmentProps> = ({
             alignItems: "center",
           }}
         >
-          <Tag
-            color={statusColor}
+          {/* Nút "View Detail" */}
+          <Button
+            type="primary"
+            onClick={handleClick}
             style={{
               fontSize: "16px",
               fontWeight: "bold",
               width: "150px",
               height: "40px",
-              display: "flex", // Thêm display: flex
-              justifyContent: "center", // Căn giữa ngang
-              alignItems: "center", // Căn giữa dọc
             }}
           >
-            {formattedStatus}
-          </Tag>
+            View Detail
+          </Button>
         </Col>
       </Row>
       <Row style={{ marginTop: 10 }}>
@@ -109,4 +96,4 @@ const AppointmentCard: React.FC<AppointmentProps> = ({
   );
 };
 
-export default AppointmentCard;
+export default UserAppointmentCard;

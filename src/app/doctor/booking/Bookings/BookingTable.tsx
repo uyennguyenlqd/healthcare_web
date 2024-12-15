@@ -96,7 +96,7 @@ const BookingTable: React.FC = () => {
     };
 
     fetchBookings();
-  }, []); // Chạy một lần khi component render
+  }, []);
 
   const columns = [
     {

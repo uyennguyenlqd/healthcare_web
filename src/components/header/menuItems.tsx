@@ -1,5 +1,6 @@
 import type { MenuProps } from "antd";
 
+import RecordPage from "@/app/user/booking/counselling-records/page";
 import MyAppointmentPage from "@/app/user/booking/payment/page";
 import ProfilePage from "@/app/user/booking/profile/page";
 import { logOut } from "@/hooks/auth";
@@ -10,8 +11,12 @@ export const profileItems: MenuProps["items"] = [
     key: "profile",
   },
   {
-    label: "My Appointment",
+    label: "My Booking",
     key: "history_booking",
+  },
+  {
+    label: "Counselling Records",
+    key: "counselling_records",
   },
   {
     label: "Logout",
@@ -32,6 +37,9 @@ export const handleMenuClick = (
       break;
     case "history_booking":
       setSelectedComponent(<MyAppointmentPage />);
+      break;
+    case "counselling_records":
+      setSelectedComponent(<RecordPage />);
       break;
     case "logout":
       setSelectedComponent(null);

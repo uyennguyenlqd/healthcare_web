@@ -55,14 +55,14 @@ const SiderContent: FC = () => {
       label: "Schedule",
       icon: <ScheduleOutlined style={{ fontSize: "20px" }} />,
       style: { color: "#06417C", fontSize: "16px", marginBottom: "12px" },
-      url: "/doctor",
+      url: "/doctor/schedule",
     },
     {
       key: "Therapist's Corner",
       label: "Therapist's Corner",
       icon: <FileProtectOutlined style={{ fontSize: "20px" }} />,
       style: { color: "#06417C", fontSize: "16px", marginBottom: "12px" },
-      url: "/doctor",
+      url: "/doctor/news",
     },
     // {
     //   key: "Notes",
