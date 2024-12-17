@@ -1,36 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button } from "antd";
 import PatientCard from "./PatientCard";
+import { useSession } from "next-auth/react";
+import { ENV } from "@/constants/env";
 
 const RecentPatients = () => {
   const [patients, setPatients] = useState<any[]>([]);
-
+  const { data: session } = useSession();
   useEffect(() => {
-    // Dữ liệu giả lập
-    const fetchedPatients = [
-      {
-        id: 1,
-        firstName: "John",
-        lastName: "Doe",
-        email: "john.doe@example.com",
-        avatar: "https://i.pravatar.cc/150?img=1",
-      },
-      {
-        id: 2,
-        firstName: "Jane",
-        lastName: "Smith",
-        email: "jane.smith@example.com",
-        avatar: "https://i.pravatar.cc/150?img=2",
-      },
-      {
-        id: 3,
-        firstName: "Michael",
-        lastName: "Brown",
-        email: "michael.brown@example.com",
-        avatar: "https://i.pravatar.cc/150?img=3",
-      },
-    ];
-    setPatients(fetchedPatients);
+    // Fetching the data from the API
+    const fetchPatients = async () => {
+      try {
+        const response = await fetch(`${ENV}/api/v1/doctor/regular-patient`, {
+          headers: {
+            Authorization: `Bearer ${session?.user.token}`,
+          },
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          // Transform the API response data to match your state structure
+          const transformedPatients = data.data.map((patient: any) => ({
+            id: patient.userDetails._id,
+            firstName: patient.userDetails.first_name,
+            lastName: patient.userDetails.last_name,
+            email: patient.userDetails.email,
+            avatar: patient.userDetails.avatar,
+          }));
+
+          setPatients(transformedPatients);
+        } else {
+          console.error("Failed to fetch patient data");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchPatients();
   }, []);
 
   return (

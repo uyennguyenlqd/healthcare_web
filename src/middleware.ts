@@ -40,8 +40,8 @@
 //   return NextResponse.next();
 // }
 
-import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
 const secret = process.env.AUTH_SECRET;
 
@@ -59,11 +59,14 @@ export async function middleware(request: NextRequest) {
   if (path.startsWith("/doctor") && token.role !== "doctor") {
     return NextResponse.redirect(new URL("/", request.url));
   }
+  if (path.startsWith("/admin") && token.role !== "admin") {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
   return NextResponse.next();
 }
 
 // Config matcher để áp dụng middleware
 export const config = {
-  matcher: ["/doctor/:path*"],
+  matcher: ["/doctor/:path*", "/admin/:path*"],
 };

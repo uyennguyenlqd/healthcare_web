@@ -50,6 +50,8 @@ const Login: React.FC = () => {
           // router.push("/user");
         } else if (session?.user.role === "doctor") {
           router.push("/doctor/dashboard");
+        } else if (session?.user.role == "admin") {
+          router.push("/admin");
         }
       }
     } catch (error) {

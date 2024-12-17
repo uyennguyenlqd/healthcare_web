@@ -4,12 +4,16 @@ import {
   DatePicker,
   Divider,
   Form,
+  Input,
   List,
   Modal,
   Space,
   TimePicker,
   Typography,
 } from "antd";
+
+import { ENV } from "@/constants/env";
+
 interface TimeSlot {
   start: string;
   end: string;
@@ -46,17 +50,37 @@ const AddScheduleModal = ({ visible, onClose, onSubmit }: any) => {
   };
 
   // Form submission handler
-  const handleSubmit = () => {
-    form.validateFields().then((values) => {
+  const handleSubmit = async () => {
+    form.validateFields().then(async (values) => {
       const payload = {
         doctorId: values.doctorId,
         date: values.date.format("YYYY-MM-DD"),
         timeSlots,
       };
-      onSubmit(payload);
-      form.resetFields();
-      setTimeSlots([]);
-      onClose();
+
+      try {
+        const response = await fetch(`${ENV}/api/v1/schedule/create_schedule`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Schedule created successfully:", data);
+          onSubmit(payload); // Call onSubmit prop to notify parent component
+          form.resetFields();
+          setTimeSlots([]);
+          onClose();
+        } else {
+          const errorData = await response.json();
+          console.error("Failed to create schedule:", errorData);
+        }
+      } catch (error) {
+        console.error("Error occurred while submitting:", error);
+      }
     });
   };
 
@@ -78,18 +102,20 @@ const AddScheduleModal = ({ visible, onClose, onSubmit }: any) => {
       }}
     >
       <Form form={form} layout="vertical">
-        <Form.Item label="Doctor ID">
-          <Typography
+        <Form.Item
+          label="Doctor ID"
+          name="doctorId"
+          rules={[{ required: true, message: "Please enter the doctor ID!" }]}
+        >
+          <Input
+            placeholder="Enter Doctor ID"
             style={{
-              display: "block",
               padding: "8px",
               backgroundColor: "#f0f2f5",
               border: "1px solid #d9d9d9",
               borderRadius: "4px",
             }}
-          >
-            0000000
-          </Typography>
+          />
         </Form.Item>
 
         <Form.Item
@@ -115,9 +141,9 @@ const AddScheduleModal = ({ visible, onClose, onSubmit }: any) => {
           <Form.Item
             label="Start Time"
             name="start"
-            rules={[
-              { required: true, message: "Please select the start time!" },
-            ]}
+            // rules={[
+            //   { required: true, message: "Please select the start time!" },
+            // ]}
           >
             <TimePicker format="HH:mm" />
           </Form.Item>
@@ -125,7 +151,7 @@ const AddScheduleModal = ({ visible, onClose, onSubmit }: any) => {
           <Form.Item
             label="End Time"
             name="end"
-            rules={[{ required: true, message: "Please select the end time!" }]}
+            // rules={[{ required: true, message: "Please select the end time!" }]}
           >
             <TimePicker format="HH:mm" />
           </Form.Item>

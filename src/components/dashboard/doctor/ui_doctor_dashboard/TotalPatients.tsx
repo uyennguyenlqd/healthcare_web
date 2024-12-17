@@ -1,17 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { TeamOutlined } from "@ant-design/icons"; // Biểu tượng nhóm
 import { Button, Card, Col, Row, Statistic } from "antd";
+import axios from "axios"; // Giả sử bạn sử dụng axios để gửi yêu cầu HTTP
+import { ENV } from "@/constants/env";
+import { useSession } from "next-auth/react";
 
 const TotalPatients = () => {
   const [patients, setPatients] = useState<any[]>([]);
-
+  const [loading, setLoading] = useState<boolean>(true);
+  const { data: session } = useSession();
   useEffect(() => {
-    // Giả lập danh sách bệnh nhân
-    const fetchedPatients: any[] = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]; // 10 bệnh nhân
-    setPatients(fetchedPatients);
+    // Gọi API để lấy danh sách bệnh nhân
+    const fetchPatients = async () => {
+      try {
+        setLoading(true); // Đang tải
+        const res = await fetch(`${ENV}/api/v1/doctor/regular-patient`, {
+          headers: {
+            Authorization: `Bearer ${session?.user.token}`,
+          },
+        });
+        const data = await res.json();
+        setPatients(data.data);
+      } catch (error) {
+        console.error("Error fetching patients:", error);
+      } finally {
+        setLoading(false); // Xong tải
+      }
+    };
+
+    fetchPatients();
   }, []);
 
-  const totalPatients = patients.length;
+  const totalPatients = patients.length; // Tính tổng số bệnh nhân
 
   return (
     <Card
@@ -24,7 +44,7 @@ const TotalPatients = () => {
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
         width: "100%",
       }}
-      extra={<TeamOutlined style={{ fontSize: 26, color: "#1890ff" }} />} // Biểu tượng nhóm
+      extra={<TeamOutlined style={{ fontSize: 26, color: "#1890ff" }} />}
     >
       <Row>
         <Col span={24}>
@@ -37,7 +57,7 @@ const TotalPatients = () => {
               fontWeight: "bold",
               color: "#1b61bd",
             }}
-            value={totalPatients}
+            value={loading ? "Loading..." : totalPatients} // Hiển thị Loading nếu đang tải
           />
         </Col>
       </Row>
@@ -58,7 +78,7 @@ const TotalPatients = () => {
               cursor: "pointer",
             }}
             onClick={() => {
-              //TODO
+              //TODO: Xử lý khi nhấn "View All Patients"
               console.log("View All Patients clicked");
             }}
           >

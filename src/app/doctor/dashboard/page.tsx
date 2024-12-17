@@ -1,6 +1,7 @@
 "use client";
 
-import RecentAppointment from "@/components/dashboard/doctor/ui_doctor_dashboard/RecentAppointment";
+import RecentAppointment from "../appointments/page";
+
 import RecentPatients from "@/components/dashboard/doctor/ui_doctor_dashboard/RecentPatients";
 import TotalAppointment from "@/components/dashboard/doctor/ui_doctor_dashboard/TotalAppointment";
 import TotalPatients from "@/components/dashboard/doctor/ui_doctor_dashboard/TotalPatients";

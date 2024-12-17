@@ -2,13 +2,15 @@
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"; // Import icons
-import { Avatar, Button, Space, Table } from "antd";
+import { Avatar, Button, Space, Table, Typography } from "antd";
 
 import { ENV } from "@/constants/env";
+import { useRouter } from "next/navigation";
 const PatientTable = () => {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
   const { data: session } = useSession();
+  const router = useRouter();
   // Lấy danh sách bệnh nhân từ API
   useEffect(() => {
     const fetchPatients = async () => {
@@ -34,6 +36,19 @@ const PatientTable = () => {
 
   const columns = [
     {
+      title: "ID",
+      dataIndex: "userDetails", // Assuming the patient's ID is stored in `_id`
+      key: "id",
+      render: (userDetails: any) => (
+        <Typography
+          style={{ cursor: "pointer", color: "blue" }}
+          onClick={() => router.push(`/doctor/patients/${userDetails._id}`)} // Navigate to the patient detail page
+        >
+          {userDetails._id}
+        </Typography>
+      ),
+    },
+    {
       title: "Avatar",
       dataIndex: "userDetails",
       key: "avatar",
@@ -58,34 +73,11 @@ const PatientTable = () => {
       render: (userDetails: any) => <span>{userDetails.email}</span>,
     },
     {
-      title: "Appointment Date",
-      dataIndex: "appointmentDate",
-      key: "appointmentDate",
-      render: (appointmentDate: string) => (
-        <span>{new Date(appointmentDate).toLocaleDateString()}</span>
-      ),
-    },
-    {
-      title: "Timeslot",
-      dataIndex: "timeslot",
-      key: "timeslot",
-    },
-    {
       title: "Status",
       dataIndex: "status",
       key: "status",
       render: (status: string) => (
         <span>{status === "approved" ? "Approved" : status}</span>
-      ),
-    },
-    {
-      title: "Actions",
-      key: "actions",
-      render: (_: any, record: any) => (
-        <Space size="middle">
-          <Button type="link" icon={<EditOutlined />} />
-          <Button type="link" danger icon={<DeleteOutlined />} />
-        </Space>
       ),
     },
   ];

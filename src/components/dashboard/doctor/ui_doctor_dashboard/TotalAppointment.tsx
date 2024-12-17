@@ -1,23 +1,41 @@
 import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { CalendarOutlined } from "@ant-design/icons";
 import { Button, Card, Col, Row, Statistic } from "antd";
+import axios from "axios";
 
-const TotalAppointment = () => {
-  const [appointments, setAppointments] = useState<any[]>([]);
+import { ENV } from "@/constants/env";
+
+const TotalBooking = () => {
+  const [bookings, setBookings] = useState<any[]>([]);
+  const { data: session } = useSession();
 
   useEffect(() => {
-    const fetchedAppointments: any[] = [{}, {}, {}, {}, {}, {}, {}, {}];
-    setAppointments(fetchedAppointments);
-  }, []);
+    // Fetch dữ liệu cuộc hẹn từ API
+    const fetchAppointments = async () => {
+      try {
+        // Giả sử API trả về danh sách cuộc hẹn
+        const response = await axios.get(`${ENV}/api/v1/doctor/bookings`, {
+          headers: {
+            Authorization: `Bearer ${session?.user.token}`,
+          },
+        });
 
-  const totalAppointments = appointments.length;
+        setBookings(response.data.data);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+      }
+    };
+
+    fetchAppointments(); // Gọi hàm fetch khi component mount
+  }, []); // Chạy một lần khi component được render lần đầu
+
+  const totalBooking = bookings.length; // Tính tổng số cuộc hẹn
 
   return (
     <Card
       title={
-        <span style={{ fontSize: "20px", fontWeight: "bold" }}>
-          Appointments
-        </span>
+        <span style={{ fontSize: "20px", fontWeight: "bold" }}>Bookings</span>
       }
       style={{
         border: "solid 0.5px rgba(152, 162, 179, 0.4)",
@@ -38,7 +56,7 @@ const TotalAppointment = () => {
               fontWeight: "bold",
               color: "#1b61bd",
             }}
-            value={totalAppointments}
+            value={totalBooking} // Hiển thị tổng số cuộc hẹn
           />
         </Col>
       </Row>
@@ -56,12 +74,11 @@ const TotalAppointment = () => {
               padding: 0,
               boxShadow: "none",
               width: "fit-content",
-
               cursor: "pointer",
             }}
             onClick={() => {
-              //TODO
               console.log("View All clicked");
+              // TODO: Chuyển hướng hoặc hiển thị chi tiết cuộc hẹn
             }}
           >
             View Details
@@ -72,4 +89,4 @@ const TotalAppointment = () => {
   );
 };
 
-export default TotalAppointment;
+export default TotalBooking;

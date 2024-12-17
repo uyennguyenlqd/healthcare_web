@@ -1,17 +1,37 @@
 import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { ClockCircleOutlined } from "@ant-design/icons"; // Biểu tượng đồng hồ
 import { Button, Card, Col, Row, Statistic } from "antd";
 
-const TotalSessions = () => {
-  const [sessions, setSessions] = useState<any[]>([]);
+import { ENV } from "@/constants/env";
 
+const TotalSessions = () => {
+  const [appointments, setAppointments] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const { data: session } = useSession();
   useEffect(() => {
     // Giả lập danh sách phiên làm việc
-    const fetchedSessions: any[] = [{}, {}, {}, {}, {}, {}]; // 6 sessions
-    setSessions(fetchedSessions);
+    const fetchSessions = async () => {
+      try {
+        setLoading(true); // Đang tải
+        const response = await fetch(`${ENV}/api/v1/appointment`, {
+          headers: {
+            Authorization: `Bearer ${session?.user.token}`,
+          },
+        });
+        const data = await response.json();
+        setAppointments(data.appointments);
+      } catch (error) {
+        console.error("Error fetching sessions:", error);
+      } finally {
+        setLoading(false); // Xong tải
+      }
+    };
+
+    fetchSessions();
   }, []);
 
-  const totalSessions = sessions.length;
+  const totalSessions = appointments.length; // Tính tổng số phiên làm việc
 
   return (
     <Card
@@ -24,7 +44,7 @@ const TotalSessions = () => {
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
         width: "100%",
       }}
-      extra={<ClockCircleOutlined style={{ fontSize: 26, color: "#1890ff" }} />} // Biểu tượng đồng hồ
+      extra={<ClockCircleOutlined style={{ fontSize: 26, color: "#1890ff" }} />}
     >
       <Row>
         <Col span={24}>
@@ -37,7 +57,7 @@ const TotalSessions = () => {
               fontWeight: "bold",
               color: "#1b61bd",
             }}
-            value={totalSessions}
+            value={loading ? "Loading..." : totalSessions} // Hiển thị Loading nếu đang tải
           />
         </Col>
       </Row>
@@ -58,7 +78,7 @@ const TotalSessions = () => {
               cursor: "pointer",
             }}
             onClick={() => {
-              //TODO
+              //TODO: Xử lý khi nhấn "View All Sessions"
               console.log("View All Sessions clicked");
             }}
           >

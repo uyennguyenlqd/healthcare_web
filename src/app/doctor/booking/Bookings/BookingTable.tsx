@@ -150,6 +150,28 @@ const BookingTable: React.FC = () => {
       key: "createdAt",
       render: (date: string) => new Date(date).toLocaleString(),
     },
+    {
+      title: "Expiration Status", // Cột hiển thị trạng thái hết hạn
+      key: "expirationStatus",
+      render: (text: string, record: Booking) => {
+        const appointmentDate = new Date(record.appointmentDate);
+        const timeslot = record.timeslot.split(" - "); // Chia timeslot thành khoảng thời gian bắt đầu và kết thúc
+        const startTime = timeslot[0]; // Lấy giờ bắt đầu
+        const [hours, minutes] = startTime.split(":").map(Number); // Tách giờ và phút từ chuỗi
+
+        // Cập nhật đối tượng Date với giờ và phút từ timeslot
+        appointmentDate.setHours(hours, minutes, 0, 0); // Thiết lập giờ, phút cho ngày đã có
+
+        const currentDate = new Date();
+
+        // Kiểm tra nếu thời gian cuộc hẹn đã quá hạn
+        if (appointmentDate < currentDate) {
+          return <Tag color="red">Expired</Tag>; // Cuộc hẹn quá hạn
+        } else {
+          return <Tag color="green">Active</Tag>; // Cuộc hẹn còn hạn
+        }
+      },
+    },
   ];
 
   return (

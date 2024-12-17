@@ -46,6 +46,7 @@ export interface DoctorModel {
   bio?: string;
   meet_link?: string;
   ticketPrice: number;
+  isApproved: "pending" | "approved" | "cancelled";
   timeslots?: {
     start: string;
     end: string;
