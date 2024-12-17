@@ -22,13 +22,13 @@ const SiderAdmin: FC = () => {
   const router = useRouter();
 
   const items = [
-    {
-      key: "Dashboard",
-      label: "DashBoard",
-      icon: <DashboardOutlined style={{ fontSize: "20px" }} />,
-      style: { color: "#06417C", fontSize: "16px", marginBottom: "12px" },
-      url: "/admin/dashboard",
-    },
+    // {
+    //   key: "Dashboard",
+    //   label: "DashBoard",
+    //   icon: <DashboardOutlined style={{ fontSize: "20px" }} />,
+    //   style: { color: "#06417C", fontSize: "16px", marginBottom: "12px" },
+    //   url: "/admin/dashboard",
+    // },
     {
       key: "User",
       label: "User",

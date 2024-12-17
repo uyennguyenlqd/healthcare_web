@@ -1,17 +1,32 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Avatar, message, Select, Switch, Table, Typography } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { Avatar, message, Select, Table, Typography } from "antd";
 import axios from "axios";
 
+import SharedButton from "@/components/dashboard/admin/button/SharedButton";
 import { ENV } from "@/constants/env";
 import { DoctorModel } from "@/interfaces/models/doctors";
+import CreateDoctorModal from "./Doctor/DoctorModal";
 
 const { Text } = Typography;
 
 const DoctorTable = () => {
   const [loading, setLoading] = useState(false);
   const [doctors, setDoctors] = useState<DoctorModel[]>([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleShowModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+  const handleSuccess = () => {
+    console.log("Doctor created successfully!");
+  };
   const router = useRouter();
   // Fetch API data
   const fetchDoctors = async () => {
@@ -139,14 +154,37 @@ const DoctorTable = () => {
   ];
 
   return (
-    <Table
-      dataSource={doctors}
-      columns={columns}
-      rowKey="_id"
-      loading={loading}
-      bordered
-      pagination={{ pageSize: 10 }}
-    />
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-end",
+        gap: "40px",
+      }}
+    >
+      <SharedButton
+        type="primary"
+        icon={<PlusOutlined />}
+        onClick={handleShowModal}
+        title="Add Doctor"
+      />
+      <CreateDoctorModal
+        visible={isModalVisible}
+        onClose={handleCloseModal}
+        onSuccess={handleSuccess}
+      />
+
+      <Table
+        dataSource={doctors}
+        columns={columns}
+        rowKey="_id"
+        loading={loading}
+        bordered
+        pagination={{ pageSize: 10 }}
+        scroll={{ x: true }}
+        style={{ width: "100%" }}
+      />
+    </div>
   );
 };
 
